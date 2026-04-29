@@ -49,7 +49,7 @@ min-height: 100vh;
 .hero-item:nth-child(4) { border-right: none; border-bottom: none; }
 .hero-item.featured { background: var(–gold-bg); }
 .hero-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.6; }
-.hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(18px, 4vw, 26px); font-weight: 500; line-height: 1; }
+.hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(18px, 4vw, 26px); font-weight: 500; line-height: 1; color: var(–ink); }
 .hero-sub { font-size: 10px; color: var(–ink3); margin-top: 8px; font-family: ‘DM Mono’, monospace; }
 
 /* SECTION */
@@ -151,17 +151,17 @@ margin-bottom: 0;
   <div class="hero">
     <div class="hero-item featured">
       <div class="hero-label">時間加權累積報酬率 TWR</div>
-      <div class="hero-value c-red" id="d-twr"></div>
+      <div class="hero-value" id="d-twr" style="color:#C8000A"></div>
       <div class="hero-sub" id="d-twr-sub"></div>
     </div>
     <div class="hero-item featured">
       <div class="hero-label">推估年化報酬率（單利）</div>
-      <div class="hero-value c-red" id="d-ann"></div>
+      <div class="hero-value" id="d-ann" style="color:#C8000A"></div>
       <div class="hero-sub">TWR 基礎換算</div>
     </div>
     <div class="hero-item">
       <div class="hero-label">累積總獲利（帳戶）</div>
-      <div class="hero-value c-red" id="d-profit"></div>
+      <div class="hero-value" id="d-profit" style="color:#C8000A"></div>
       <div class="hero-sub">期末 — 累計投入</div>
     </div>
     <div class="hero-item">
@@ -178,9 +178,9 @@ margin-bottom: 0;
     <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
     <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
     <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
-    <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value c-red" id="s-profit"></span></div>
-    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value c-red" id="s-twr"></span></div>
-    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value c-red" id="s-ann"></span></div>
+    <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value" id="s-profit" style="color:#C8000A"></span></div>
+    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value" id="s-twr" style="color:#C8000A"></span></div>
+    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value" id="s-ann" style="color:#C8000A"></span></div>
   </div>
 
   <div class="section">
@@ -263,7 +263,7 @@ margin-bottom: 0;
 </div>
 
 <script>
-var KEY = "inv_v4";
+var KEY = "inv_v5";
 var PIN = "0000";
 
 var def = {
