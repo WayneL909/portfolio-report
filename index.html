@@ -318,23 +318,23 @@ function renderClient() {
   tbody.innerHTML = "";
   D.periods.forEach(function(p) {
     var tr = document.createElement("tr");
-    var pc = periodColor(p.profit);
-    var rc = periodColor(p.rate);
+    var pc = pos(p.profit) ? "#C8000A" : "#006E35";
+    var rc = pos(p.rate)   ? "#C8000A" : "#006E35";
     tr.innerHTML =
       '<td><div class="period-date">' + p.from + '<br>— ' + p.to + '</div></td>' +
-      '<td><span class="period-num ' + pc + '">' + p.profit + '</span></td>' +
-      '<td><span class="period-num ' + rc + '">' + p.rate + '%</span></td>';
+      '<td><span class="period-num" style="color:' + pc + '">' + p.profit + '</span></td>' +
+      '<td><span class="period-num" style="color:' + rc + '">' + p.rate + '%</span></td>';
     tbody.appendChild(tr);
   });
 
   // 合計列：TWR 正=紅 負=綠
-  var totClass = periodColor(D.twr);
+  var totColor = pos(D.twr) ? "#C8000A" : "#006E35";
   var totalTr = document.createElement("tr");
   totalTr.className = "total-row";
   totalTr.innerHTML =
     '<td><span class="total-label">' + first + ' — ' + last + '（合計）</span></td>' +
     '<td><span class="total-label">—</span></td>' +
-    '<td><span class="total-rate ' + totClass + '">' + D.twr + '%</span></td>';
+    '<td><span class="total-rate" style="color:' + totColor + '">' + D.twr + '%</span></td>';
   tbody.appendChild(totalTr);
 }
 
