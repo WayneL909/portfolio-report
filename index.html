@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投資績效報告</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–gold: #C9A84C;
+–gold-light: #E8C97A;
+–gold-dim: #8A6E30;
+–bg: #0A0A0A;
+–surface: #111111;
+–surface2: #181818;
+–border: #2A2A2A;
+–text: #F0EDE6;
+–text-muted: #7A7570;
+–green: #4CAF8A;
+–red: #E05C5C;
+}
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Noto Serif TC’, serif;
+min-height: 100vh;
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(14px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+.fadein { animation: fadeUp 0.5s ease both; }
+
+input {
+background: #1A1A1A;
+border: 1px solid #333;
+color: var(–text);
+font-family: ‘DM Mono’, monospace;
+font-size: 14px;
+padding: 8px 12px;
+width: 100%;
+outline: none;
+border-radius: 2px;
+transition: border-color 0.2s;
+}
+input:focus { border-color: var(–gold); }
+
+button {
+cursor: pointer;
+border: none;
+font-family: ‘Noto Serif TC’, serif;
+font-size: 14px;
+padding: 10px 22px;
+border-radius: 2px;
+transition: opacity 0.2s, transform 0.1s;
+}
+button:hover { opacity: 0.85; }
+button:active { transform: scale(0.97); }
+.btn-gold { background: var(–gold); color: #0A0A0A; font-weight: 600; }
+.btn-ghost { background: transparent; border: 1px solid #444; color: #aaa; }
+.btn-danger { background: transparent; border: 1px solid rgba(224,92,92,0.3); color: var(–red); font-size: 12px; padding: 6px 14px; }
+
+.container { max-width: 720px; margin: 0 auto; padding: 0 20px 80px; }
+
+.mono { font-family: ‘DM Mono’, monospace; }
+.serif { font-family: ‘Cormorant Garamond’, serif; }
+.gold { color: var(–gold-light); }
+.green { color: var(–green); }
+.red { color: var(–red); }
+.muted { color: var(–text-muted); }
+
+.section-heading {
+display: flex;
+align-items: center;
+gap: 14px;
+margin: 40px 0 16px;
+}
+.section-heading h2 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 20px;
+font-weight: 600;
+white-space: nowrap;
+}
+.section-line {
+flex: 1;
+height: 1px;
+background: linear-gradient(90deg, var(–border), transparent);
+}
+
+table { width: 100%; border-collapse: collapse; background: var(–surface); border: 1px solid var(–border); }
+th { padding: 12px 18px; text-align: left; font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 0.18em; color: var(–text-muted); font-weight: 400; border-bottom: 1px solid var(–border); text-transform: uppercase; }
+td { padding: 14px 18px; border-bottom: 1px solid var(–border); font-size: 14px; }
+tr:last-child td { border-bottom: none; }
+</style>
+
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+const { useState, useEffect } = React;
+const e = React.createElement;
+
+// ── Storage (localStorage fallback since no Artifact API) ──────────────────
+const STORAGE_KEY = "inv_report_v1";
+const ADMIN_PIN = "0000"; // ← 改這裡換密碼
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(_) {}
+  return null;
+}
+function saveData(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(_) {}
+}
+
+// ── Default data ───────────────────────────────────────────────────────────
+const DEFAULT = {
+  reportDate: "2026/04/05",
+  totalDays: "126",
+  initialCapital: "2,000,000",
+  addedCapital: "3,200,000",
+  totalCapital: "5,200,000",
+  endBalance: "7,027,571",
+  totalProfit: "1,827,571",
+  twr: "+54.05",
+  annualized: "約 156",
+  periods: [
+    { from: "2025/12/01", to: "2026/01/04", profit: "+544,814", rate: "+29.40" },
+    { from: "2026/01/06", to: "2026/02/05", profit: "+856,380", rate: "+14.91" },
+    { from: "2026/02/06", to: "2026/03/05", profit: "+886,099", rate: "+13.42" },
+    { from: "2026/03/06", to: "2026/04/05", profit: "-459,722", rate: "-6.14" },
+  ],
+};
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function isPos(v) { return !String(v).trim().startsWith("-"); }
+
+function ColorVal({ val, suffix="" }) {
+  return e("span", { style: { color: isPos(val) ? "#4CAF8A" : "#E05C5C" } }, val + suffix);
+}
+
+function SectionHeading({ title }) {
+  return e("div", { className: "section-heading" },
+    e("h2", null, title),
+    e("div", { className: "section-line" })
+  );
+}
+
+// ── CLIENT VIEW ────────────────────────────────────────────────────────────
+function ClientView({ data, onAdmin }) {
+  const first = data.periods[0]?.from || "";
+  const last  = data.periods[data.periods.length - 1]?.to || "";
+
+  const heroCards = [
+    { label: "時間加權累積報酬率 (TWR)", value: data.twr + "%", sub: first + " — " + data.reportDate, type: "gold" },
+    { label: "推估年化報酬率（單利）",   value: data.annualized + "%", sub: "TWR 基礎換算", type: "gold" },
+    { label: "累積總獲利（帳戶）",        value: "$" + data.totalProfit, sub: "期末 — 累計投入", type: "green" },
+    { label: "期末總資金",               value: "$" + data.endBalance, sub: data.reportDate, type: "" },
+  ];
+
+  const summaryRows = [
+    ["總投資天數",                         data.totalDays + " 天",    ""],
+    ["初始投入本金",                        "$" + data.initialCapital, ""],
+    ["新增投入本金",                        "$" + data.addedCapital,   ""],
+    ["累計投入本金",                        "$" + data.totalCapital,   ""],
+    ["期末總資金（" + data.reportDate + "）","$" + data.endBalance,    ""],
+    ["累積總獲利（帳戶）",                  "$" + data.totalProfit,    "green"],
+    ["時間加權累積報酬率（TWR）",           data.twr + "%",            "gold"],
+    ["推估年化報酬率（TWR・單利）",         data.annualized + "%",     "gold"],
+  ];
+
+  return e("div", { className: "container" },
+
+    // Header
+    e("div", { style: { padding: "56px 0 36px", borderBottom: "1px solid #2A2A2A", marginBottom: 40, position: "relative" } },
+      e("div", { style: { position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg,transparent,#8A6E30,transparent)" } }),
+      e("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 } },
+        e("span", { className: "serif", style: { fontSize: 12, letterSpacing: "0.3em", color: "#C9A84C", fontStyle: "italic" } }, "Portfolio Performance Report"),
+        e("span", { className: "mono muted", style: { fontSize: 11 } }, "截至 " + data.reportDate)
+      ),
+      e("h1", { className: "serif", style: { fontSize: "clamp(36px,7vw,60px)", fontWeight: 300, lineHeight: 1.1 } },
+        "投資", e("em", { style: { fontStyle: "italic", color: "#E8C97A" } }, "績效"), e("br"), "報告總覽"
+      )
+    ),
+
+    // Hero grid
+    e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "#2A2A2A", border: "1px solid #2A2A2A", marginBottom: 48 } },
+      ...heroCards.map((c, i) =>
+        e("div", { key: i, className: "fadein", style: { background: i < 2 ? "#181818" : "#111111", padding: "28px 22px", position: "relative", animationDelay: (i*0.1)+"s" } },
+          i < 2 && e("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,#8A6E30,#C9A84C,#8A6E30)" } }),
+          e("div", { className: "mono muted", style: { fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 10 } }, c.label),
+          e("div", { className: "mono", style: { fontSize: "clamp(18px,3.5vw,26px)", fontWeight: 500, color: c.type === "gold" ? "#E8C97A" : c.type === "green" ? "#4CAF8A" : "#F0EDE6" } }, c.value),
+          e("div", { className: "mono muted", style: { fontSize: 10, marginTop: 6 } }, c.sub)
+        )
+      )
+    ),
+
+    // Summary
+    e(SectionHeading, { title: "帳戶摘要" }),
+    e("table", { style: { marginBottom: 0 } },
+      e("tbody", null,
+        ...summaryRows.map(([label, val, type], i) =>
+          e("tr", { key: i },
+            e("td", { className: "muted", style: { fontSize: 13, width: "52%" } }, label),
+            e("td", { className: "mono", style: { color: type === "green" ? "#4CAF8A" : type === "gold" ? "#E8C97A" : "#F0EDE6" } }, val)
+          )
+        )
+      )
+    ),
+
+    // Periods
+    e(SectionHeading, { title: "各期間績效" }),
+    e("table", null,
+      e("thead", null,
+        e("tr", null,
+          ...["區間", "該段獲利", "子區段報酬率"].map(h => e("th", { key: h }, h))
+        )
+      ),
+      e("tbody", null,
+        ...data.periods.map((p, i) =>
+          e("tr", { key: i },
+            e("td", { className: "mono muted", style: { fontSize: 12 } }, p.from + " — " + p.to),
+            e("td", { className: "mono" }, e(ColorVal, { val: p.profit })),
+            e("td", { className: "mono", style: { fontWeight: 500 } }, e(ColorVal, { val: p.rate, suffix: "%" }))
+          )
+        ),
+        e("tr", { style: { background: "#181818", borderTop: "1px solid #8A6E30" } },
+          e("td", { className: "mono gold", style: { fontSize: 12 } }, first + " — " + last + "（合計）"),
+          e("td", { className: "mono gold" }, "—"),
+          e("td", { className: "mono gold", style: { fontWeight: 600 } }, data.twr + "%")
+        )
+      )
+    ),
+
+    // Footer
+    e("div", { style: { marginTop: 56, paddingTop: 28, borderTop: "1px solid #2A2A2A", textAlign: "center" } },
+      e("div", { style: { width: 36, height: 1, background: "#8A6E30", margin: "0 auto 12px" } }),
+      e("p", { className: "mono muted", style: { fontSize: 11 } }, "本報告數據由代操方提供・僅供參考"),
+      e("p", { className: "mono muted", style: { fontSize: 11, marginTop: 6 } }, "報告日期：" + data.reportDate)
+    ),
+
+    // Hidden admin button
+    e("div", { style: { textAlign: "center", marginTop: 40 } },
+      e("button", { className: "btn-ghost", style: { fontSize: 11, padding: "6px 16px", opacity: 0.25 }, onClick: onAdmin }, "管理員")
+    )
+  );
+}
+
+// ── PIN GATE ───────────────────────────────────────────────────────────────
+function PinGate({ onSuccess, onCancel }) {
+  const [pin, setPin] = useState("");
+  const [err, setErr] = useState(false);
+
+  function check() {
+    if (pin === ADMIN_PIN) { onSuccess(); }
+    else { setErr(true); setPin(""); setTimeout(() => setErr(false), 1200); }
+  }
+
+  return e("div", { style: { maxWidth: 300, margin: "120px auto", padding: 32, background: "#111", border: "1px solid #2A2A2A", textAlign: "center" } },
+    e("div", { className: "serif", style: { fontSize: 22, marginBottom: 6 } }, "管理員登入"),
+    e("div", { className: "mono muted", style: { fontSize: 11, marginBottom: 24 } }, "請輸入密碼"),
+    e("input", {
+      type: "password", value: pin, autoFocus: true,
+      onChange: ev => setPin(ev.target.value),
+      onKeyDown: ev => ev.key === "Enter" && check(),
+      placeholder: "••••",
+      style: { textAlign: "center", fontSize: 20, letterSpacing: "0.3em", border: err ? "1px solid #E05C5C" : undefined }
+    }),
+    err && e("div", { style: { color: "#E05C5C", fontFamily: "monospace", fontSize: 12, marginTop: 8 } }, "密碼錯誤"),
+    e("div", { style: { display: "flex", gap: 10, marginTop: 16 } },
+      e("button", { className: "btn-gold", style: { flex: 1 }, onClick: check }, "確認"),
+      e("button", { className: "btn-ghost", onClick: onCancel }, "取消")
+    ),
+    e("div", { className: "mono muted", style: { fontSize: 10, marginTop: 16 } }, "預設密碼：0000")
+  );
+}
+
+// ── ADMIN VIEW ─────────────────────────────────────────────────────────────
+function AdminView({ data, onSave, onCancel }) {
+  const [form, setForm] = useState(JSON.parse(JSON.stringify(data)));
+  const [saved, setSaved] = useState(false);
+
+  function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
+  function setPeriod(i, key, val) {
+    setForm(f => ({ ...f, periods: f.periods.map((p, idx) => idx === i ? { ...p, [key]: val } : p) }));
+  }
+  function addPeriod() { setForm(f => ({ ...f, periods: [...f.periods, { from: "", to: "", profit: "", rate: "" }] })); }
+  function removePeriod(i) { setForm(f => ({ ...f, periods: f.periods.filter((_, idx) => idx !== i) })); }
+
+  function handleSave() {
+    onSave(form);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  function Field({ label, fkey, placeholder }) {
+    return e("div", { style: { marginBottom: 16 } },
+      e("label", { className: "mono muted", style: { display: "block", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 } }, label),
+      e("input", { value: form[fkey], placeholder, onChange: ev => set(fkey, ev.target.value) })
+    );
+  }
+
+  function Section({ title, children }) {
+    return e("div", { style: { marginBottom: 32 } },
+      e("div", { style: { display: "flex", alignItems: "center", gap: 14, marginBottom: 18 } },
+        e("h3", { className: "serif", style: { fontSize: 18, fontWeight: 600, whiteSpace: "nowrap" } }, title),
+        e("div", { style: { flex: 1, height: 1, background: "linear-gradient(90deg,#2A2A2A,transparent)" } })
+      ),
+      children
+    );
+  }
+
+  return e("div", { className: "container", style: { paddingTop: 40 } },
+    e("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 36 } },
+      e("div", null,
+        e("div", { className: "serif muted", style: { fontSize: 11, letterSpacing: "0.3em", color: "#C9A84C", fontStyle: "italic", marginBottom: 6 } }, "Admin Panel"),
+        e("h2", { className: "serif", style: { fontSize: 28, fontWeight: 600 } }, "更新報告數據")
+      ),
+      e("button", { className: "btn-ghost", onClick: onCancel }, "← 返回")
+    ),
+
+    e(Section, { title: "基本資訊" },
+      e(Field, { label: "報告截止日期", fkey: "reportDate", placeholder: "2026/04/05" }),
+      e(Field, { label: "總投資天數", fkey: "totalDays", placeholder: "126" })
+    ),
+
+    e(Section, { title: "資金數據" },
+      e(Field, { label: "初始投入本金", fkey: "initialCapital", placeholder: "2,000,000" }),
+      e(Field, { label: "新增投入本金", fkey: "addedCapital", placeholder: "3,200,000" }),
+      e(Field, { label: "累計投入本金", fkey: "totalCapital", placeholder: "5,200,000" }),
+      e(Field, { label: "期末總資金", fkey: "endBalance", placeholder: "7,027,571" }),
+      e(Field, { label: "累積總獲利（帳戶）", fkey: "totalProfit", placeholder: "1,827,571" })
+    ),
+
+    e(Section, { title: "報酬率" },
+      e(Field, { label: "TWR（不含 %，例：+54.05）", fkey: "twr", placeholder: "+54.05" }),
+      e(Field, { label: "年化報酬率（不含 %，例：約 156）", fkey: "annualized", placeholder: "約 156" })
+    ),
+
+    e(Section, { title: "各期間績效" },
+      ...form.periods.map((p, i) =>
+        e("div", { key: i, style: { background: "#181818", border: "1px solid #2A2A2A", padding: "16px 16px 8px", marginBottom: 12 } },
+          e("div", { className: "mono muted", style: { fontSize: 11, marginBottom: 12 } }, "第 " + (i+1) + " 期"),
+          e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
+            ...["from:開始日期:2025/12/01", "to:結束日期:2026/01/04", "profit:該段獲利（含正負號）:+544,814", "rate:報酬率（不含 %）:+29.40"].map(str => {
+              const [key, label, ph] = str.split(":");
+              return e("div", { key },
+                e("label", { className: "mono muted", style: { display: "block", fontSize: 10, textTransform: "uppercase", marginBottom: 5 } }, label),
+                e("input", { value: p[key], placeholder: ph, onChange: ev => setPeriod(i, key, ev.target.value) })
+              );
+            })
+          ),
+          e("div", { style: { textAlign: "right", marginTop: 10 } },
+            e("button", { className: "btn-danger", onClick: () => removePeriod(i) }, "刪除此期")
+          )
+        )
+      ),
+      e("button", { className: "btn-ghost", style: { width: "100%", marginTop: 4 }, onClick: addPeriod }, "＋ 新增一期")
+    ),
+
+    e("div", { style: { display: "flex", gap: 12 } },
+      e("button", { className: "btn-gold", style: { flex: 1 }, onClick: handleSave }, saved ? "✓ 已儲存！" : "儲存並更新報告"),
+      e("button", { className: "btn-ghost", onClick: onCancel }, "取消")
+    ),
+    e("p", { className: "mono muted", style: { fontSize: 11, marginTop: 12, textAlign: "center" } }, "儲存後客戶刷新頁面即可看到最新數據")
+  );
+}
+
+// ── ROOT ───────────────────────────────────────────────────────────────────
+function App() {
+  const [data, setData] = useState(() => loadData() || DEFAULT);
+  const [mode, setMode] = useState("client");
+
+  function handleSave(newData) {
+    setData(newData);
+    saveData(newData);
+    setMode("client");
+  }
+
+  if (mode === "client") return e(ClientView, { data, onAdmin: () => setMode("pin") });
+  if (mode === "pin")    return e(PinGate, { onSuccess: () => setMode("admin"), onCancel: () => setMode("client") });
+  if (mode === "admin")  return e(AdminView, { data, onSave: handleSave, onCancel: () => setMode("client") });
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(e(App));
+</script>
+
+</body>
+</html>
