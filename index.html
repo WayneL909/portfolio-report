@@ -10,62 +10,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #F7F5F0; color: #1A1A1A; font-family: 'Noto Serif TC', serif; min-height: 100vh; }
 
-body {
-background: #F7F5F0;
-color: #1A1A1A;
-font-family: ‘Noto Serif TC’, serif;
-min-height: 100vh;
-}
-
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(12px); }
-to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 .fadein { animation: fadeUp 0.5s ease both; }
 
 input {
-background: #fff;
-border: 1px solid #D0CBC0;
-color: #1A1A1A;
-font-family: ‘DM Mono’, monospace;
-font-size: 14px;
-padding: 9px 12px;
-width: 100%;
-outline: none;
-border-radius: 3px;
-transition: border-color 0.2s;
+background: #fff; border: 1px solid #D0CBC0; color: #1A1A1A;
+font-family: ‘DM Mono’, monospace; font-size: 14px; padding: 9px 12px;
+width: 100%; outline: none; border-radius: 3px; transition: border-color 0.2s;
 }
 input:focus { border-color: #9A7A3A; }
 
 button {
-cursor: pointer;
-border: none;
-font-family: ‘Noto Serif TC’, serif;
-font-size: 14px;
-padding: 10px 22px;
-border-radius: 3px;
+cursor: pointer; border: none; font-family: ‘Noto Serif TC’, serif;
+font-size: 14px; padding: 10px 22px; border-radius: 3px;
 transition: opacity 0.2s, transform 0.1s;
 }
 button:hover { opacity: 0.82; }
 button:active { transform: scale(0.97); }
-.btn-gold  { background: #9A7A3A; color: #fff; font-weight: 600; }
-.btn-ghost { background: transparent; border: 1px solid #C0B8AC; color: #666; }
-.btn-danger{ background: transparent; border: 1px solid #E05C5C88; color: #C04040; font-size: 12px; padding: 6px 14px; }
+.btn-gold   { background: #9A7A3A; color: #fff; font-weight: 600; }
+.btn-ghost  { background: transparent; border: 1px solid #C0B8AC; color: #555; }
+.btn-danger { background: transparent; border: 1px solid #E05C5C88; color: #C04040; font-size: 12px; padding: 6px 14px; }
 
 .container { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
 .mono  { font-family: ‘DM Mono’, monospace; }
 .serif { font-family: ‘Cormorant Garamond’, serif; }
 
 .section-heading { display: flex; align-items: center; gap: 14px; margin: 40px 0 16px; }
-.section-heading h2 { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; font-weight: 600; white-space: nowrap; color: #1A1A1A; }
+.section-heading h2 { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; font-weight: 600; white-space: nowrap; }
 .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, #C8C0B4, transparent); }
 
 table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #E0D8CE; }
-th { padding: 12px 18px; text-align: left; font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 0.18em; color: #999; font-weight: 400; border-bottom: 1px solid #E8E2D8; text-transform: uppercase; background: #F9F7F3; }
-td { padding: 14px 18px; border-bottom: 1px solid #EDE8E0; font-size: 14px; color: #1A1A1A; }
+th { padding: 12px 18px; text-align: left; font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 0.16em; color: #888; font-weight: 400; border-bottom: 1px solid #E8E2D8; text-transform: uppercase; background: #F9F7F3; }
+td { padding: 15px 18px; border-bottom: 1px solid #EDE8E0; font-size: 14px; color: #1A1A1A; }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background: #FAF8F4; }
 </style>
 
 </head>
@@ -74,9 +53,8 @@ tr:hover td { background: #FAF8F4; }
 <script>
 const { useState } = React;
 const e = React.createElement;
-
-const STORAGE_KEY = “inv_report_v1”;
-const ADMIN_PIN = “0000”;
+const STORAGE_KEY = "inv_report_v2";
+const ADMIN_PIN = "0000";
 
 function loadData() {
 try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(*){}
@@ -85,15 +63,10 @@ return null;
 function saveData(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(*){} }
 
 const DEFAULT = {
-reportDate: “2026/04/05”,
-totalDays: “126”,
-initialCapital: “2,000,000”,
-addedCapital: “3,200,000”,
-totalCapital: “5,200,000”,
-endBalance: “7,027,571”,
-totalProfit: “1,827,571”,
-twr: “+54.05”,
-annualized: “約 156”,
+reportDate: “2026/04/05”, totalDays: “126”,
+initialCapital: “2,000,000”, addedCapital: “3,200,000”,
+totalCapital: “5,200,000”, endBalance: “7,027,571”,
+totalProfit: “1,827,571”, twr: “+54.05”, annualized: “約 156”,
 periods: [
 { from: “2025/12/01”, to: “2026/01/04”, profit: “+544,814”, rate: “+29.40” },
 { from: “2026/01/06”, to: “2026/02/05”, profit: “+856,380”, rate: “+14.91” },
@@ -103,18 +76,16 @@ periods: [
 };
 
 function isPos(v) { return !String(v).trim().startsWith(”-”); }
-
 function ColorVal({ val, suffix=”” }) {
-return e(“span”, { style: { color: isPos(val) ? “#2A7A55” : “#C04040”, fontWeight: 600 } }, val + suffix);
+return e(“span”, { style: { color: isPos(val) ? “#1E7A50” : “#B03030”, fontWeight: 600 } }, val + suffix);
 }
-
 function SectionHeading({ title }) {
 return e(“div”, { className: “section-heading” },
-e(“h2”, null, title),
-e(“div”, { className: “section-line” })
+e(“h2”, null, title), e(“div”, { className: “section-line” })
 );
 }
 
+// ── CLIENT VIEW ──────────────────────────────────────────────────────────
 function ClientView({ data, onAdmin }) {
 const first = data.periods[0]?.from || “”;
 const last  = data.periods[data.periods.length - 1]?.to || “”;
@@ -123,35 +94,33 @@ return e(“div”, { className: “container” },
 
 ```
 // Header
-e("div", { style: { padding: "52px 0 32px", borderBottom: "1px solid #D8D0C4", marginBottom: 36 } },
-  e("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 } },
+e("div", { style: { padding: "52px 0 32px", borderBottom: "2px solid #1A1A1A", marginBottom: 36 } },
+  e("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 } },
     e("span", { className: "serif", style: { fontSize: 12, letterSpacing: "0.3em", color: "#9A7A3A", fontStyle: "italic" } }, "Portfolio Performance Report"),
-    e("span", { className: "mono", style: { fontSize: 11, color: "#999" } }, "截至 " + data.reportDate)
+    e("span", { className: "mono", style: { fontSize: 11, color: "#666" } }, "截至 " + data.reportDate)
   ),
-  e("h1", { className: "serif", style: { fontSize: "clamp(32px,6vw,56px)", fontWeight: 300, lineHeight: 1.1, color: "#1A1A1A" } },
+  e("h1", { className: "serif", style: { fontSize: "clamp(36px,7vw,60px)", fontWeight: 300, lineHeight: 1.1 } },
     "投資", e("em", { style: { fontStyle: "italic", color: "#9A7A3A" } }, "績效"), e("br"), "報告總覽"
   )
 ),
 
-// Hero grid
+// Hero grid — top 2 dark, bottom 2 light
 e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 44 } },
   ...[
     { label: "時間加權累積報酬率 (TWR)", value: data.twr + "%", sub: first + " — " + data.reportDate, dark: true, color: "#C8A84C" },
-    { label: "推估年化報酬率（單利）", value: data.annualized + "%", sub: "TWR 基礎換算", dark: true, color: "#C8A84C" },
-    { label: "累積總獲利（帳戶）", value: "$" + data.totalProfit, sub: "期末 — 累計投入", dark: false, color: "#2A7A55" },
-    { label: "期末總資金", value: "$" + data.endBalance, sub: data.reportDate, dark: false, color: "#1A1A1A" },
+    { label: "推估年化報酬率（單利）",   value: data.annualized + "%", sub: "TWR 基礎換算", dark: true, color: "#C8A84C" },
+    { label: "累積總獲利（帳戶）",        value: "$" + data.totalProfit, sub: "期末 — 累計投入", dark: false, color: "#1E7A50" },
+    { label: "期末總資金",               value: "$" + data.endBalance, sub: data.reportDate, dark: false, color: "#1A1A1A" },
   ].map((c, i) =>
     e("div", { key: i, className: "fadein", style: {
       background: c.dark ? "#1A1A1A" : "#fff",
       border: "1px solid " + (c.dark ? "#333" : "#E0D8CE"),
-      padding: "24px 20px",
-      animationDelay: (i*0.1)+"s",
-      position: "relative"
+      padding: "22px 18px", animationDelay: (i*0.1)+"s", position: "relative"
     }},
       c.dark && e("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#9A7A3A" } }),
-      e("div", { className: "mono", style: { fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10, color: c.dark ? "#777" : "#AAA" } }, c.label),
+      e("div", { className: "mono", style: { fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10, color: c.dark ? "#888" : "#999" } }, c.label),
       e("div", { className: "mono", style: { fontSize: "clamp(17px,3vw,24px)", fontWeight: 500, color: c.color } }, c.value),
-      e("div", { className: "mono", style: { fontSize: 10, marginTop: 6, color: c.dark ? "#555" : "#AAA" } }, c.sub)
+      e("div", { className: "mono", style: { fontSize: 10, marginTop: 6, color: c.dark ? "#666" : "#999" } }, c.sub)
     )
   )
 ),
@@ -161,18 +130,21 @@ e(SectionHeading, { title: "帳戶摘要" }),
 e("table", null,
   e("tbody", null,
     ...[
-      ["總投資天數", data.totalDays + " 天", ""],
-      ["初始投入本金", "$" + data.initialCapital, ""],
-      ["新增投入本金", "$" + data.addedCapital, ""],
-      ["累計投入本金", "$" + data.totalCapital, ""],
-      ["期末總資金（" + data.reportDate + "）", "$" + data.endBalance, ""],
-      ["累積總獲利（帳戶）", "$" + data.totalProfit, "green"],
-      ["時間加權累積報酬率（TWR）", data.twr + "%", "gold"],
-      ["推估年化報酬率（TWR・單利）", data.annualized + "%", "gold"],
+      ["總投資天數",                          data.totalDays + " 天",    "normal"],
+      ["初始投入本金",                         "$" + data.initialCapital, "normal"],
+      ["新增投入本金",                         "$" + data.addedCapital,   "normal"],
+      ["累計投入本金",                         "$" + data.totalCapital,   "normal"],
+      ["期末總資金（" + data.reportDate + "）","$" + data.endBalance,    "normal"],
+      ["累積總獲利（帳戶）",                   "$" + data.totalProfit,   "green"],
+      ["時間加權累積報酬率（TWR）",            data.twr + "%",           "gold"],
+      ["推估年化報酬率（TWR・單利）",          data.annualized + "%",    "gold"],
     ].map(([label, val, type], i) =>
       e("tr", { key: i },
-        e("td", { style: { color: "#666", fontSize: 13, width: "52%" } }, label),
-        e("td", { className: "mono", style: { fontWeight: 500, color: type === "green" ? "#2A7A55" : type === "gold" ? "#9A7A3A" : "#1A1A1A" } }, val)
+        e("td", { style: { color: "#444", fontSize: 13, width: "52%", fontWeight: 400 } }, label),
+        e("td", { className: "mono", style: {
+          fontWeight: 600, fontSize: 15,
+          color: type === "green" ? "#1E7A50" : type === "gold" ? "#9A7A3A" : "#1A1A1A"
+        }}, val)
       )
     )
   )
@@ -187,15 +159,15 @@ e("table", null,
   e("tbody", null,
     ...data.periods.map((p, i) =>
       e("tr", { key: i },
-        e("td", { className: "mono", style: { fontSize: 12, color: "#666" } }, p.from + " — " + p.to),
-        e("td", { className: "mono" }, e(ColorVal, { val: p.profit })),
-        e("td", { className: "mono" }, e(ColorVal, { val: p.rate, suffix: "%" }))
+        e("td", { className: "mono", style: { fontSize: 12, color: "#555" } }, p.from + " — " + p.to),
+        e("td", { className: "mono", style: { fontSize: 15 } }, e(ColorVal, { val: p.profit })),
+        e("td", { className: "mono", style: { fontSize: 15 } }, e(ColorVal, { val: p.rate, suffix: "%" }))
       )
     ),
     e("tr", { style: { background: "#1A1A1A" } },
       e("td", { className: "mono", style: { fontSize: 12, color: "#C8A84C", borderBottom: "none" } }, first + " — " + last + "（合計）"),
       e("td", { className: "mono", style: { color: "#C8A84C", borderBottom: "none" } }, "—"),
-      e("td", { className: "mono", style: { color: "#C8A84C", fontWeight: 600, borderBottom: "none" } }, data.twr + "%")
+      e("td", { className: "mono", style: { color: "#C8A84C", fontWeight: 600, fontSize: 15, borderBottom: "none" } }, data.twr + "%")
     )
   )
 ),
@@ -203,23 +175,23 @@ e("table", null,
 // Footer
 e("div", { style: { marginTop: 52, paddingTop: 24, borderTop: "1px solid #D8D0C4", textAlign: "center" } },
   e("div", { style: { width: 32, height: 1, background: "#9A7A3A", margin: "0 auto 12px" } }),
-  e("p", { className: "mono", style: { fontSize: 11, color: "#AAA" } }, "本報告數據由代操方提供・僅供參考"),
-  e("p", { className: "mono", style: { fontSize: 11, color: "#AAA", marginTop: 6 } }, "報告日期：" + data.reportDate)
+  e("p", { className: "mono", style: { fontSize: 11, color: "#999" } }, "本報告數據由代操方提供・僅供參考"),
+  e("p", { className: "mono", style: { fontSize: 11, color: "#999", marginTop: 6 } }, "報告日期：" + data.reportDate)
 ),
-
 e("div", { style: { textAlign: "center", marginTop: 40 } },
-  e("button", { className: "btn-ghost", style: { fontSize: 11, padding: "6px 16px", opacity: 0.3 }, onClick: onAdmin }, "管理員")
+  e("button", { className: "btn-ghost", style: { fontSize: 11, padding: "6px 16px", opacity: 0.25 }, onClick: onAdmin }, "管理員")
 )
 ```
 
 );
 }
 
+// ── PIN GATE ─────────────────────────────────────────────────────────────
 function PinGate({ onSuccess, onCancel }) {
 const [pin, setPin] = useState(””);
 const [err, setErr] = useState(false);
 function check() {
-if (pin === ADMIN_PIN) { onSuccess(); }
+if (pin === ADMIN_PIN) onSuccess();
 else { setErr(true); setPin(””); setTimeout(() => setErr(false), 1200); }
 }
 return e(“div”, { style: { maxWidth: 300, margin: “120px auto”, padding: 32, background: “#fff”, border: “1px solid #E0D8CE”, textAlign: “center”, borderRadius: 4 } },
@@ -240,10 +212,10 @@ e(“div”, { className: “mono”, style: { fontSize: 10, color: “#BBB”, 
 );
 }
 
+// ── ADMIN VIEW ────────────────────────────────────────────────────────────
 function AdminView({ data, onSave, onCancel }) {
 const [form, setForm] = useState(JSON.parse(JSON.stringify(data)));
 const [saved, setSaved] = useState(false);
-
 function set(key, val) { setForm(f => ({ …f, [key]: val })); }
 function setPeriod(i, key, val) {
 setForm(f => ({ …f, periods: f.periods.map((p, idx) => idx === i ? { …p, [key]: val } : p) }));
@@ -254,11 +226,10 @@ function handleSave() { onSave(form); setSaved(true); setTimeout(() => setSaved(
 
 function Field({ label, fkey, placeholder }) {
 return e(“div”, { style: { marginBottom: 16 } },
-e(“label”, { className: “mono”, style: { display: “block”, fontSize: 10, color: “#999”, letterSpacing: “0.1em”, textTransform: “uppercase”, marginBottom: 6 } }, label),
+e(“label”, { className: “mono”, style: { display: “block”, fontSize: 10, color: “#888”, letterSpacing: “0.1em”, textTransform: “uppercase”, marginBottom: 6 } }, label),
 e(“input”, { value: form[fkey], placeholder, onChange: ev => set(fkey, ev.target.value) })
 );
 }
-
 function Sec({ title, children }) {
 return e(“div”, { style: { marginBottom: 32 } },
 e(“div”, { style: { display: “flex”, alignItems: “center”, gap: 14, marginBottom: 18 } },
@@ -277,63 +248,58 @@ e(“h2”, { className: “serif”, style: { fontSize: 28, fontWeight: 600 } }
 ),
 e(“button”, { className: “btn-ghost”, onClick: onCancel }, “← 返回”)
 ),
-
-```
-e(Sec, { title: "基本資訊" },
-  e(Field, { label: "報告截止日期", fkey: "reportDate", placeholder: "2026/04/05" }),
-  e(Field, { label: "總投資天數", fkey: "totalDays", placeholder: "126" })
+e(Sec, { title: “基本資訊” },
+e(Field, { label: “報告截止日期”, fkey: “reportDate”, placeholder: “2026/04/05” }),
+e(Field, { label: “總投資天數”, fkey: “totalDays”, placeholder: “126” })
 ),
-e(Sec, { title: "資金數據" },
-  e(Field, { label: "初始投入本金", fkey: "initialCapital", placeholder: "2,000,000" }),
-  e(Field, { label: "新增投入本金", fkey: "addedCapital", placeholder: "3,200,000" }),
-  e(Field, { label: "累計投入本金", fkey: "totalCapital", placeholder: "5,200,000" }),
-  e(Field, { label: "期末總資金", fkey: "endBalance", placeholder: "7,027,571" }),
-  e(Field, { label: "累積總獲利（帳戶）", fkey: "totalProfit", placeholder: "1,827,571" })
+e(Sec, { title: “資金數據” },
+e(Field, { label: “初始投入本金”, fkey: “initialCapital”, placeholder: “2,000,000” }),
+e(Field, { label: “新增投入本金”, fkey: “addedCapital”, placeholder: “3,200,000” }),
+e(Field, { label: “累計投入本金”, fkey: “totalCapital”, placeholder: “5,200,000” }),
+e(Field, { label: “期末總資金”, fkey: “endBalance”, placeholder: “7,027,571” }),
+e(Field, { label: “累積總獲利（帳戶）”, fkey: “totalProfit”, placeholder: “1,827,571” })
 ),
-e(Sec, { title: "報酬率" },
-  e(Field, { label: "TWR（不含 %，例：+54.05）", fkey: "twr", placeholder: "+54.05" }),
-  e(Field, { label: "年化報酬率（不含 %，例：約 156）", fkey: "annualized", placeholder: "約 156" })
+e(Sec, { title: “報酬率” },
+e(Field, { label: “TWR（不含 %，例：+54.05）”, fkey: “twr”, placeholder: “+54.05” }),
+e(Field, { label: “年化報酬率（不含 %，例：約 156）”, fkey: “annualized”, placeholder: “約 156” })
 ),
-e(Sec, { title: "各期間績效" },
-  ...form.periods.map((p, i) =>
-    e("div", { key: i, style: { background: "#FAF8F4", border: "1px solid #E0D8CE", padding: "16px 16px 8px", marginBottom: 12, borderRadius: 3 } },
-      e("div", { className: "mono", style: { fontSize: 11, color: "#999", marginBottom: 12 } }, "第 " + (i+1) + " 期"),
-      e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } },
-        ...["from:開始日期:2025/12/01","to:結束日期:2026/01/04","profit:該段獲利（含正負號）:+544,814","rate:報酬率（不含 %）:+29.40"].map(str => {
-          const [key, label, ph] = str.split(":");
-          return e("div", { key },
-            e("label", { className: "mono", style: { display: "block", fontSize: 10, color: "#999", textTransform: "uppercase", marginBottom: 5 } }, label),
-            e("input", { value: p[key], placeholder: ph, onChange: ev => setPeriod(i, key, ev.target.value) })
-          );
-        })
-      ),
-      e("div", { style: { textAlign: "right", marginTop: 10 } },
-        e("button", { className: "btn-danger", onClick: () => removePeriod(i) }, "刪除此期")
-      )
-    )
-  ),
-  e("button", { className: "btn-ghost", style: { width: "100%", marginTop: 4 }, onClick: addPeriod }, "＋ 新增一期")
+e(Sec, { title: “各期間績效” },
+…form.periods.map((p, i) =>
+e(“div”, { key: i, style: { background: “#FAF8F4”, border: “1px solid #E0D8CE”, padding: “16px 16px 8px”, marginBottom: 12, borderRadius: 3 } },
+e(“div”, { className: “mono”, style: { fontSize: 11, color: “#999”, marginBottom: 12 } }, “第 “ + (i+1) + “ 期”),
+e(“div”, { style: { display: “grid”, gridTemplateColumns: “1fr 1fr”, gap: 12 } },
+…[“from:開始日期:2025/12/01”,“to:結束日期:2026/01/04”,“profit:該段獲利（含正負號）:+544,814”,“rate:報酬率（不含 %）:+29.40”].map(str => {
+const [key, label, ph] = str.split(”:”);
+return e(“div”, { key },
+e(“label”, { className: “mono”, style: { display: “block”, fontSize: 10, color: “#999”, textTransform: “uppercase”, marginBottom: 5 } }, label),
+e(“input”, { value: p[key], placeholder: ph, onChange: ev => setPeriod(i, key, ev.target.value) })
+);
+})
 ),
-
-e("div", { style: { display: "flex", gap: 12 } },
-  e("button", { className: "btn-gold", style: { flex: 1 }, onClick: handleSave }, saved ? "✓ 已儲存！" : "儲存並更新報告"),
-  e("button", { className: "btn-ghost", onClick: onCancel }, "取消")
+e(“div”, { style: { textAlign: “right”, marginTop: 10 } },
+e(“button”, { className: “btn-danger”, onClick: () => removePeriod(i) }, “刪除此期”)
+)
+)
 ),
-e("p", { className: "mono", style: { fontSize: 11, color: "#AAA", marginTop: 12, textAlign: "center" } }, "儲存後客戶刷新頁面即可看到最新數據")
-```
-
+e(“button”, { className: “btn-ghost”, style: { width: “100%”, marginTop: 4 }, onClick: addPeriod }, “＋ 新增一期”)
+),
+e(“div”, { style: { display: “flex”, gap: 12 } },
+e(“button”, { className: “btn-gold”, style: { flex: 1 }, onClick: handleSave }, saved ? “✓ 已儲存！” : “儲存並更新報告”),
+e(“button”, { className: “btn-ghost”, onClick: onCancel }, “取消”)
+),
+e(“p”, { className: “mono”, style: { fontSize: 11, color: “#AAA”, marginTop: 12, textAlign: “center” } }, “儲存後客戶刷新頁面即可看到最新數據”)
 );
 }
 
+// ── ROOT ──────────────────────────────────────────────────────────────────
 function App() {
 const [data, setData] = useState(() => loadData() || DEFAULT);
 const [mode, setMode] = useState(“client”);
-function handleSave(newData) { setData(newData); saveData(newData); setMode(“client”); }
+function handleSave(d) { setData(d); saveData(d); setMode(“client”); }
 if (mode === “client”) return e(ClientView, { data, onAdmin: () => setMode(“pin”) });
 if (mode === “pin”)    return e(PinGate, { onSuccess: () => setMode(“admin”), onCancel: () => setMode(“client”) });
 if (mode === “admin”)  return e(AdminView, { data, onSave: handleSave, onCancel: () => setMode(“client”) });
 }
-
 ReactDOM.createRoot(document.getElementById(“root”)).render(e(App));
 </script>
 
