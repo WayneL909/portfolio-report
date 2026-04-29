@@ -11,58 +11,56 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #F7F5F0; color: #1A1A1A; font-family: 'Noto Serif TC', serif; min-height: 100vh; }
-
 @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 .fadein { animation: fadeUp 0.5s ease both; }
-
 input {
-background: #fff; border: 1px solid #D0CBC0; color: #1A1A1A;
-font-family: ‘DM Mono’, monospace; font-size: 14px; padding: 9px 12px;
-width: 100%; outline: none; border-radius: 3px; transition: border-color 0.2s;
+  background: #fff; border: 1px solid #D0CBC0; color: #1A1A1A;
+  font-family: 'DM Mono', monospace; font-size: 14px; padding: 9px 12px;
+  width: 100%; outline: none; border-radius: 3px; transition: border-color 0.2s;
 }
 input:focus { border-color: #9A7A3A; }
-
 button {
-cursor: pointer; border: none; font-family: ‘Noto Serif TC’, serif;
-font-size: 14px; padding: 10px 22px; border-radius: 3px;
-transition: opacity 0.2s, transform 0.1s;
+  cursor: pointer; border: none; font-family: 'Noto Serif TC', serif;
+  font-size: 14px; padding: 10px 22px; border-radius: 3px;
+  transition: opacity 0.2s, transform 0.1s;
 }
 button:hover { opacity: 0.82; }
 button:active { transform: scale(0.97); }
 .btn-gold   { background: #9A7A3A; color: #fff; font-weight: 600; }
 .btn-ghost  { background: transparent; border: 1px solid #C0B8AC; color: #555; }
-.btn-danger { background: transparent; border: 1px solid #E05C5C88; color: #C04040; font-size: 12px; padding: 6px 14px; }
-
+.btn-danger { background: transparent; border: 1px solid rgba(180,40,40,0.4); color: #B02020; font-size: 12px; padding: 6px 14px; }
 .container { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
-.mono  { font-family: ‘DM Mono’, monospace; }
-.serif { font-family: ‘Cormorant Garamond’, serif; }
-
-.section-heading { display: flex; align-items: center; gap: 14px; margin: 40px 0 16px; }
-.section-heading h2 { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; font-weight: 600; white-space: nowrap; }
-.section-line { flex: 1; height: 1px; background: linear-gradient(90deg, #C8C0B4, transparent); }
-
-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #E0D8CE; }
-th { padding: 12px 18px; text-align: left; font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 0.16em; color: #888; font-weight: 400; border-bottom: 1px solid #E8E2D8; text-transform: uppercase; background: #F9F7F3; }
-td { padding: 15px 18px; border-bottom: 1px solid #EDE8E0; font-size: 14px; color: #1A1A1A; }
-tr:last-child td { border-bottom: none; }
+.mono  { font-family: 'DM Mono', monospace; }
+.serif { font-family: 'Cormorant Garamond', serif; }
+.sh { display:flex; align-items:center; gap:14px; margin:40px 0 16px; }
+.sh h2 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; white-space:nowrap; }
+.sl { flex:1; height:1px; background:linear-gradient(90deg,#C8C0B4,transparent); }
+table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #E0D8CE; }
+th { padding:12px 18px; text-align:left; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; color:#888; font-weight:400; border-bottom:1px solid #E8E2D8; text-transform:uppercase; background:#F9F7F3; }
+td { padding:15px 18px; border-bottom:1px solid #EDE8E0; font-size:14px; color:#1A1A1A; }
+tr:last-child td { border-bottom:none; }
 </style>
-
 </head>
 <body>
 <div id="root"></div>
 <script>
-const { useState } = React;
-const e = React.createElement;
-const STORAGE_KEY = "inv_report_v2";
-const ADMIN_PIN = "0000";
+var h = React.createElement;
+var useState = React.useState;
+
+var STORAGE_KEY = “inv_report_v3”;
+var ADMIN_PIN = “0000”;
+// 台股慣例：紅色=漲=正數，綠色=跌=負數
+var COLOR_POS = “#C00000”;
+var COLOR_NEG = “#007A40”;
+var COLOR_GOLD = “#9A7A3A”;
 
 function loadData() {
-try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(*){}
+try { var r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {}
 return null;
 }
-function saveData(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(*){} }
+function saveData(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {} }
 
-const DEFAULT = {
+var DEFAULT = {
 reportDate: “2026/04/05”, totalDays: “126”,
 initialCapital: “2,000,000”, addedCapital: “3,200,000”,
 totalCapital: “5,200,000”, endBalance: “7,027,571”,
@@ -72,114 +70,117 @@ periods: [
 { from: “2026/01/06”, to: “2026/02/05”, profit: “+856,380”, rate: “+14.91” },
 { from: “2026/02/06”, to: “2026/03/05”, profit: “+886,099”, rate: “+13.42” },
 { from: “2026/03/06”, to: “2026/04/05”, profit: “-459,722”, rate: “-6.14” },
-],
+]
 };
 
-function isPos(v) { return !String(v).trim().startsWith(”-”); }
-function ColorVal({ val, suffix=”” }) {
-return e(“span”, { style: { color: isPos(val) ? “#B03030” : “#1E7A50”, fontWeight: 600 } }, val + suffix);
+function isPos(v) { return String(v).trim().charAt(0) !== “-”; }
+function numColor(v) { return isPos(v) ? COLOR_POS : COLOR_NEG; }
+
+function ColorVal(props) {
+return h(“span”, { style: { color: numColor(props.val), fontWeight: 600 } }, props.val + (props.suffix || “”));
 }
-function SectionHeading({ title }) {
-return e(“div”, { className: “section-heading” },
-e(“h2”, null, title), e(“div”, { className: “section-line” })
-);
+
+function SH(props) {
+return h(“div”, { className: “sh” }, h(“h2”, null, props.title), h(“div”, { className: “sl” }));
 }
 
 // ── CLIENT VIEW ──────────────────────────────────────────────────────────
-function ClientView({ data, onAdmin }) {
-const first = data.periods[0]?.from || “”;
-const last  = data.periods[data.periods.length - 1]?.to || “”;
+function ClientView(props) {
+var data = props.data;
+var first = data.periods.length ? data.periods[0].from : “”;
+var last  = data.periods.length ? data.periods[data.periods.length-1].to : “”;
 
-return e(“div”, { className: “container” },
+var heroes = [
+{ label: “時間加權累積報酬率 (TWR)”, value: data.twr+”%”, sub: first+” — “+data.reportDate, dark:true, color: numColor(data.twr) },
+{ label: “推估年化報酬率（單利）”,   value: data.annualized+”%”, sub:“TWR 基礎換算”, dark:true, color: numColor(data.annualized) },
+{ label: “累積總獲利（帳戶）”,        value: “$”+data.totalProfit, sub:“期末 — 累計投入”, dark:false, color: COLOR_POS },
+{ label: “期末總資金”,               value: “$”+data.endBalance, sub:data.reportDate, dark:false, color:”#1A1A1A” },
+];
+
+var summaryRows = [
+{ label:“總投資天數”,                              val:data.totalDays+” 天”,    color:”#1A1A1A” },
+{ label:“初始投入本金”,                             val:”$”+data.initialCapital, color:”#1A1A1A” },
+{ label:“新增投入本金”,                             val:”$”+data.addedCapital,   color:”#1A1A1A” },
+{ label:“累計投入本金”,                             val:”$”+data.totalCapital,   color:”#1A1A1A” },
+{ label:“期末總資金（”+data.reportDate+”）”,        val:”$”+data.endBalance,    color:”#1A1A1A” },
+{ label:“累積總獲利（帳戶）”,                       val:”$”+data.totalProfit,   color:COLOR_POS },
+{ label:“時間加權累積報酬率（TWR）”,                val:data.twr+”%”,           color:numColor(data.twr) },
+{ label:“推估年化報酬率（TWR・單利）”,              val:data.annualized+”%”,    color:numColor(data.annualized) },
+];
+
+return h(“div”, { className:“container” },
 
 ```
-// Header
-e("div", { style: { padding: "52px 0 32px", borderBottom: "2px solid #1A1A1A", marginBottom: 36 } },
-  e("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 } },
-    e("span", { className: "serif", style: { fontSize: 12, letterSpacing: "0.3em", color: "#9A7A3A", fontStyle: "italic" } }, "Portfolio Performance Report"),
-    e("span", { className: "mono", style: { fontSize: 11, color: "#666" } }, "截至 " + data.reportDate)
+h("div", { style:{ padding:"52px 0 32px", borderBottom:"2px solid #1A1A1A", marginBottom:36 } },
+  h("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:20 } },
+    h("span", { className:"serif", style:{ fontSize:12, letterSpacing:"0.3em", color:COLOR_GOLD, fontStyle:"italic" } }, "Portfolio Performance Report"),
+    h("span", { className:"mono", style:{ fontSize:11, color:"#666" } }, "截至 "+data.reportDate)
   ),
-  e("h1", { className: "serif", style: { fontSize: "clamp(36px,7vw,60px)", fontWeight: 300, lineHeight: 1.1 } },
-    "投資", e("em", { style: { fontStyle: "italic", color: "#9A7A3A" } }, "績效"), e("br"), "報告總覽"
+  h("h1", { className:"serif", style:{ fontSize:"clamp(36px,7vw,60px)", fontWeight:300, lineHeight:1.1 } },
+    "投資", h("em", { style:{ fontStyle:"italic", color:COLOR_GOLD } }, "績效"), h("br"), "報告總覽"
   )
 ),
 
-// Hero grid — top 2 dark, bottom 2 light
-e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 44 } },
-  ...[
-    { label: "時間加權累積報酬率 (TWR)", value: data.twr + "%", sub: first + " — " + data.reportDate, dark: true, color: "#C8A84C" },
-    { label: "推估年化報酬率（單利）",   value: data.annualized + "%", sub: "TWR 基礎換算", dark: true, color: "#C8A84C" },
-    { label: "累積總獲利（帳戶）",        value: "$" + data.totalProfit, sub: "期末 — 累計投入", dark: false, color: "#B03030" },
-    { label: "期末總資金",               value: "$" + data.endBalance, sub: data.reportDate, dark: false, color: "#1A1A1A" },
-  ].map((c, i) =>
-    e("div", { key: i, className: "fadein", style: {
+h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:2, marginBottom:44 } },
+  heroes.map(function(c, i) {
+    return h("div", { key:i, className:"fadein", style:{
       background: c.dark ? "#1A1A1A" : "#fff",
-      border: "1px solid " + (c.dark ? "#333" : "#E0D8CE"),
-      padding: "22px 18px", animationDelay: (i*0.1)+"s", position: "relative"
+      border:"1px solid "+(c.dark?"#333":"#E0D8CE"),
+      padding:"22px 18px", animationDelay:(i*0.1)+"s", position:"relative"
     }},
-      c.dark && e("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#9A7A3A" } }),
-      e("div", { className: "mono", style: { fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10, color: c.dark ? "#888" : "#999" } }, c.label),
-      e("div", { className: "mono", style: { fontSize: "clamp(17px,3vw,24px)", fontWeight: 500, color: c.color } }, c.value),
-      e("div", { className: "mono", style: { fontSize: 10, marginTop: 6, color: c.dark ? "#666" : "#999" } }, c.sub)
-    )
+      c.dark && h("div", { style:{ position:"absolute", top:0, left:0, right:0, height:2, background:COLOR_GOLD } }),
+      h("div", { className:"mono", style:{ fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:10, color: c.dark?"#888":"#999" } }, c.label),
+      h("div", { className:"mono", style:{ fontSize:"clamp(17px,3vw,24px)", fontWeight:500, color:c.color } }, c.value),
+      h("div", { className:"mono", style:{ fontSize:10, marginTop:6, color: c.dark?"#666":"#999" } }, c.sub)
+    );
+  })
+),
+
+h(SH, { title:"帳戶摘要" }),
+h("table", null,
+  h("tbody", null,
+    summaryRows.map(function(row, i) {
+      return h("tr", { key:i },
+        h("td", { style:{ color:"#444", fontSize:13, width:"52%" } }, row.label),
+        h("td", { className:"mono", style:{ fontWeight:600, fontSize:15, color:row.color } }, row.val)
+      );
+    })
   )
 ),
 
-// Summary table
-e(SectionHeading, { title: "帳戶摘要" }),
-e("table", null,
-  e("tbody", null,
-    ...[
-      ["總投資天數",                          data.totalDays + " 天",    "normal"],
-      ["初始投入本金",                         "$" + data.initialCapital, "normal"],
-      ["新增投入本金",                         "$" + data.addedCapital,   "normal"],
-      ["累計投入本金",                         "$" + data.totalCapital,   "normal"],
-      ["期末總資金（" + data.reportDate + "）","$" + data.endBalance,    "normal"],
-      ["累積總獲利（帳戶）",                   "$" + data.totalProfit,   "green"],
-      ["時間加權累積報酬率（TWR）",            data.twr + "%",           "gold"],
-      ["推估年化報酬率（TWR・單利）",          data.annualized + "%",    "gold"],
-    ].map(([label, val, type], i) =>
-      e("tr", { key: i },
-        e("td", { style: { color: "#444", fontSize: 13, width: "52%", fontWeight: 400 } }, label),
-        e("td", { className: "mono", style: {
-          fontWeight: 600, fontSize: 15,
-          color: type === "green" ? "#B03030" : type === "gold" ? "#9A7A3A" : "#1A1A1A"
-        }}, val)
-      )
+h(SH, { title:"各期間績效" }),
+h("table", null,
+  h("thead", null,
+    h("tr", null,
+      h("th", null, "區間"),
+      h("th", null, "該段獲利"),
+      h("th", null, "子區段報酬率")
     )
-  )
-),
-
-// Periods table
-e(SectionHeading, { title: "各期間績效" }),
-e("table", null,
-  e("thead", null,
-    e("tr", null, ...["區間","該段獲利","子區段報酬率"].map(h => e("th", { key: h }, h)))
   ),
-  e("tbody", null,
-    ...data.periods.map((p, i) =>
-      e("tr", { key: i },
-        e("td", { className: "mono", style: { fontSize: 12, color: "#555" } }, p.from + " — " + p.to),
-        e("td", { className: "mono", style: { fontSize: 15 } }, e(ColorVal, { val: p.profit })),
-        e("td", { className: "mono", style: { fontSize: 15 } }, e(ColorVal, { val: p.rate, suffix: "%" }))
-      )
-    ),
-    e("tr", { style: { background: "#1A1A1A" } },
-      e("td", { className: "mono", style: { fontSize: 12, color: "#C8A84C", borderBottom: "none" } }, first + " — " + last + "（合計）"),
-      e("td", { className: "mono", style: { color: "#C8A84C", borderBottom: "none" } }, "—"),
-      e("td", { className: "mono", style: { color: "#C8A84C", fontWeight: 600, fontSize: 15, borderBottom: "none" } }, data.twr + "%")
+  h("tbody", null,
+    data.periods.map(function(p, i) {
+      return h("tr", { key:i },
+        h("td", { className:"mono", style:{ fontSize:12, color:"#555" } }, p.from+" — "+p.to),
+        h("td", { className:"mono", style:{ fontSize:15 } }, h(ColorVal, { val:p.profit })),
+        h("td", { className:"mono", style:{ fontSize:15 } }, h(ColorVal, { val:p.rate, suffix:"%" }))
+      );
+    }),
+    h("tr", { style:{ background:"#1A1A1A" } },
+      h("td", { className:"mono", style:{ fontSize:12, color:"#C8A84C", borderBottom:"none" } }, first+" — "+last+"（合計）"),
+      h("td", { className:"mono", style:{ color:"#C8A84C", borderBottom:"none" } }, "—"),
+      h("td", { className:"mono", style:{ color:numColor(data.twr), fontWeight:600, fontSize:15, borderBottom:"none" } }, data.twr+"%")
     )
   )
 ),
 
-// Footer
-e("div", { style: { marginTop: 52, paddingTop: 24, borderTop: "1px solid #D8D0C4", textAlign: "center" } },
-  e("div", { style: { width: 32, height: 1, background: "#9A7A3A", margin: "0 auto 12px" } }),
-  e("p", { className: "mono", style: { fontSize: 11, color: "#999" } }, "本報告數據由代操方提供・僅供參考"),
-  e("p", { className: "mono", style: { fontSize: 11, color: "#999", marginTop: 6 } }, "報告日期：" + data.reportDate)
+h("div", { style:{ marginTop:52, paddingTop:24, borderTop:"1px solid #D8D0C4", textAlign:"center" } },
+  h("div", { style:{ width:32, height:1, background:COLOR_GOLD, margin:"0 auto 12px" } }),
+  h("p", { className:"mono", style:{ fontSize:11, color:"#999" } }, "本報告數據由代操方提供・僅供參考"),
+  h("p", { className:"mono", style:{ fontSize:11, color:"#999", marginTop:6 } }, "報告日期："+data.reportDate)
 ),
-e("div", { style: { textAlign: "center", marginTop: 40 } },
-  e("button", { className: "btn-ghost", style: { fontSize: 11, padding: "6px 16px", opacity: 0.25 }, onClick: onAdmin }, "管理員")
+
+h("div", { style:{ textAlign:"center", marginTop:40 } },
+  h("button", { className:"btn-ghost", style:{ fontSize:11, padding:"6px 16px", opacity:0.25 }, onClick:props.onAdmin }, "管理員")
 )
 ```
 
@@ -187,120 +188,152 @@ e("div", { style: { textAlign: "center", marginTop: 40 } },
 }
 
 // ── PIN GATE ─────────────────────────────────────────────────────────────
-function PinGate({ onSuccess, onCancel }) {
-const [pin, setPin] = useState(””);
-const [err, setErr] = useState(false);
+function PinGate(props) {
+var state = useState(””);
+var pin = state[0]; var setPin = state[1];
+var errState = useState(false);
+var err = errState[0]; var setErr = errState[1];
+
 function check() {
-if (pin === ADMIN_PIN) onSuccess();
-else { setErr(true); setPin(””); setTimeout(() => setErr(false), 1200); }
+if (pin === ADMIN_PIN) { props.onSuccess(); }
+else { setErr(true); setPin(””); setTimeout(function(){ setErr(false); }, 1200); }
 }
-return e(“div”, { style: { maxWidth: 300, margin: “120px auto”, padding: 32, background: “#fff”, border: “1px solid #E0D8CE”, textAlign: “center”, borderRadius: 4 } },
-e(“div”, { className: “serif”, style: { fontSize: 22, marginBottom: 6 } }, “管理員登入”),
-e(“div”, { className: “mono”, style: { fontSize: 11, color: “#999”, marginBottom: 24 } }, “請輸入密碼”),
-e(“input”, { type: “password”, value: pin, autoFocus: true,
-onChange: ev => setPin(ev.target.value),
-onKeyDown: ev => ev.key === “Enter” && check(),
-placeholder: “••••”,
-style: { textAlign: “center”, fontSize: 20, letterSpacing: “0.3em”, border: err ? “1px solid #C04040” : undefined }
+
+return h(“div”, { style:{ maxWidth:300, margin:“120px auto”, padding:32, background:”#fff”, border:“1px solid #E0D8CE”, textAlign:“center”, borderRadius:4 } },
+h(“div”, { className:“serif”, style:{ fontSize:22, marginBottom:6 } }, “管理員登入”),
+h(“div”, { className:“mono”, style:{ fontSize:11, color:”#999”, marginBottom:24 } }, “請輸入密碼”),
+h(“input”, { type:“password”, value:pin, autoFocus:true,
+onChange:function(ev){ setPin(ev.target.value); },
+onKeyDown:function(ev){ if(ev.key===“Enter”) check(); },
+placeholder:”••••”,
+style:{ textAlign:“center”, fontSize:20, letterSpacing:“0.3em”, border: err?“1px solid #C04040”:undefined }
 }),
-err && e(“div”, { style: { color: “#C04040”, fontSize: 12, marginTop: 8 } }, “密碼錯誤”),
-e(“div”, { style: { display: “flex”, gap: 10, marginTop: 16 } },
-e(“button”, { className: “btn-gold”, style: { flex: 1 }, onClick: check }, “確認”),
-e(“button”, { className: “btn-ghost”, onClick: onCancel }, “取消”)
+err && h(“div”, { style:{ color:”#C04040”, fontSize:12, marginTop:8 } }, “密碼錯誤”),
+h(“div”, { style:{ display:“flex”, gap:10, marginTop:16 } },
+h(“button”, { className:“btn-gold”, style:{ flex:1 }, onClick:check }, “確認”),
+h(“button”, { className:“btn-ghost”, onClick:props.onCancel }, “取消”)
 ),
-e(“div”, { className: “mono”, style: { fontSize: 10, color: “#BBB”, marginTop: 16 } }, “預設密碼：0000”)
+h(“div”, { className:“mono”, style:{ fontSize:10, color:”#BBB”, marginTop:16 } }, “預設密碼：0000”)
 );
 }
 
 // ── ADMIN VIEW ────────────────────────────────────────────────────────────
-function AdminView({ data, onSave, onCancel }) {
-const [form, setForm] = useState(JSON.parse(JSON.stringify(data)));
-const [saved, setSaved] = useState(false);
-function set(key, val) { setForm(f => ({ …f, [key]: val })); }
+function AdminView(props) {
+var formState = useState(JSON.parse(JSON.stringify(props.data)));
+var form = formState[0]; var setForm = formState[1];
+var savedState = useState(false);
+var saved = savedState[0]; var setSaved = savedState[1];
+
+function setField(key, val) { setForm(function(f){ var n=Object.assign({},f); n[key]=val; return n; }); }
 function setPeriod(i, key, val) {
-setForm(f => ({ …f, periods: f.periods.map((p, idx) => idx === i ? { …p, [key]: val } : p) }));
+setForm(function(f){
+var ps = f.periods.map(function(p,idx){ return idx===i ? Object.assign({},p,{[key]:val}) : p; });
+return Object.assign({},f,{periods:ps});
+});
 }
-function addPeriod() { setForm(f => ({ …f, periods: […f.periods, { from: “”, to: “”, profit: “”, rate: “” }] })); }
-function removePeriod(i) { setForm(f => ({ …f, periods: f.periods.filter((_, idx) => idx !== i) })); }
-function handleSave() { onSave(form); setSaved(true); setTimeout(() => setSaved(false), 2000); }
+function addPeriod() {
+setForm(function(f){ return Object.assign({},f,{periods:f.periods.concat([{from:””,to:””,profit:””,rate:””}])}); });
+}
+function removePeriod(i) {
+setForm(function(f){ return Object.assign({},f,{periods:f.periods.filter(function(_,idx){ return idx!==i; })}); });
+}
+function handleSave() { props.onSave(form); setSaved(true); setTimeout(function(){ setSaved(false); }, 2000); }
 
-function Field({ label, fkey, placeholder }) {
-return e(“div”, { style: { marginBottom: 16 } },
-e(“label”, { className: “mono”, style: { display: “block”, fontSize: 10, color: “#888”, letterSpacing: “0.1em”, textTransform: “uppercase”, marginBottom: 6 } }, label),
-e(“input”, { value: form[fkey], placeholder, onChange: ev => set(fkey, ev.target.value) })
-);
-}
-function Sec({ title, children }) {
-return e(“div”, { style: { marginBottom: 32 } },
-e(“div”, { style: { display: “flex”, alignItems: “center”, gap: 14, marginBottom: 18 } },
-e(“h3”, { className: “serif”, style: { fontSize: 18, fontWeight: 600, whiteSpace: “nowrap” } }, title),
-e(“div”, { style: { flex: 1, height: 1, background: “linear-gradient(90deg,#D8D0C4,transparent)” } })
-),
-children
+function Field(fp) {
+return h(“div”, { style:{ marginBottom:16 } },
+h(“label”, { className:“mono”, style:{ display:“block”, fontSize:10, color:”#888”, letterSpacing:“0.1em”, textTransform:“uppercase”, marginBottom:6 } }, fp.label),
+h(“input”, { value:form[fp.fkey], placeholder:fp.placeholder, onChange:function(ev){ setField(fp.fkey, ev.target.value); } })
 );
 }
 
-return e(“div”, { className: “container”, style: { paddingTop: 40 } },
-e(“div”, { style: { display: “flex”, justifyContent: “space-between”, alignItems: “center”, marginBottom: 36 } },
-e(“div”, null,
-e(“div”, { className: “serif”, style: { fontSize: 11, letterSpacing: “0.3em”, color: “#9A7A3A”, fontStyle: “italic”, marginBottom: 6 } }, “Admin Panel”),
-e(“h2”, { className: “serif”, style: { fontSize: 28, fontWeight: 600 } }, “更新報告數據”)
+function Sec(sp) {
+return h(“div”, { style:{ marginBottom:32 } },
+h(“div”, { style:{ display:“flex”, alignItems:“center”, gap:14, marginBottom:18 } },
+h(“h3”, { className:“serif”, style:{ fontSize:18, fontWeight:600, whiteSpace:“nowrap” } }, sp.title),
+h(“div”, { style:{ flex:1, height:1, background:“linear-gradient(90deg,#D8D0C4,transparent)” } })
 ),
-e(“button”, { className: “btn-ghost”, onClick: onCancel }, “← 返回”)
-),
-e(Sec, { title: “基本資訊” },
-e(Field, { label: “報告截止日期”, fkey: “reportDate”, placeholder: “2026/04/05” }),
-e(Field, { label: “總投資天數”, fkey: “totalDays”, placeholder: “126” })
-),
-e(Sec, { title: “資金數據” },
-e(Field, { label: “初始投入本金”, fkey: “initialCapital”, placeholder: “2,000,000” }),
-e(Field, { label: “新增投入本金”, fkey: “addedCapital”, placeholder: “3,200,000” }),
-e(Field, { label: “累計投入本金”, fkey: “totalCapital”, placeholder: “5,200,000” }),
-e(Field, { label: “期末總資金”, fkey: “endBalance”, placeholder: “7,027,571” }),
-e(Field, { label: “累積總獲利（帳戶）”, fkey: “totalProfit”, placeholder: “1,827,571” })
-),
-e(Sec, { title: “報酬率” },
-e(Field, { label: “TWR（不含 %，例：+54.05）”, fkey: “twr”, placeholder: “+54.05” }),
-e(Field, { label: “年化報酬率（不含 %，例：約 156）”, fkey: “annualized”, placeholder: “約 156” })
-),
-e(Sec, { title: “各期間績效” },
-…form.periods.map((p, i) =>
-e(“div”, { key: i, style: { background: “#FAF8F4”, border: “1px solid #E0D8CE”, padding: “16px 16px 8px”, marginBottom: 12, borderRadius: 3 } },
-e(“div”, { className: “mono”, style: { fontSize: 11, color: “#999”, marginBottom: 12 } }, “第 “ + (i+1) + “ 期”),
-e(“div”, { style: { display: “grid”, gridTemplateColumns: “1fr 1fr”, gap: 12 } },
-…[“from:開始日期:2025/12/01”,“to:結束日期:2026/01/04”,“profit:該段獲利（含正負號）:+544,814”,“rate:報酬率（不含 %）:+29.40”].map(str => {
-const [key, label, ph] = str.split(”:”);
-return e(“div”, { key },
-e(“label”, { className: “mono”, style: { display: “block”, fontSize: 10, color: “#999”, textTransform: “uppercase”, marginBottom: 5 } }, label),
-e(“input”, { value: p[key], placeholder: ph, onChange: ev => setPeriod(i, key, ev.target.value) })
+sp.children
 );
-})
+}
+
+var periodFields = [“from:開始日期:2025/12/01”,“to:結束日期:2026/01/04”,“profit:該段獲利（含正負號）:+544,814”,“rate:報酬率（不含 %）:+29.40”];
+
+return h(“div”, { className:“container”, style:{ paddingTop:40 } },
+h(“div”, { style:{ display:“flex”, justifyContent:“space-between”, alignItems:“center”, marginBottom:36 } },
+h(“div”, null,
+h(“div”, { className:“serif”, style:{ fontSize:11, letterSpacing:“0.3em”, color:COLOR_GOLD, fontStyle:“italic”, marginBottom:6 } }, “Admin Panel”),
+h(“h2”, { className:“serif”, style:{ fontSize:28, fontWeight:600 } }, “更新報告數據”)
 ),
-e(“div”, { style: { textAlign: “right”, marginTop: 10 } },
-e(“button”, { className: “btn-danger”, onClick: () => removePeriod(i) }, “刪除此期”)
-)
-)
+h(“button”, { className:“btn-ghost”, onClick:props.onCancel }, “← 返回”)
 ),
-e(“button”, { className: “btn-ghost”, style: { width: “100%”, marginTop: 4 }, onClick: addPeriod }, “＋ 新增一期”)
+
+```
+h(Sec, { title:"基本資訊", children: h("div", null,
+  h(Field, { label:"報告截止日期", fkey:"reportDate", placeholder:"2026/04/05" }),
+  h(Field, { label:"總投資天數", fkey:"totalDays", placeholder:"126" })
+)}),
+
+h(Sec, { title:"資金數據", children: h("div", null,
+  h(Field, { label:"初始投入本金", fkey:"initialCapital", placeholder:"2,000,000" }),
+  h(Field, { label:"新增投入本金", fkey:"addedCapital", placeholder:"3,200,000" }),
+  h(Field, { label:"累計投入本金", fkey:"totalCapital", placeholder:"5,200,000" }),
+  h(Field, { label:"期末總資金", fkey:"endBalance", placeholder:"7,027,571" }),
+  h(Field, { label:"累積總獲利（帳戶）", fkey:"totalProfit", placeholder:"1,827,571" })
+)}),
+
+h(Sec, { title:"報酬率", children: h("div", null,
+  h(Field, { label:"TWR（不含 %，例：+54.05）", fkey:"twr", placeholder:"+54.05" }),
+  h(Field, { label:"年化報酬率（不含 %，例：約 156）", fkey:"annualized", placeholder:"約 156" })
+)}),
+
+h(Sec, { title:"各期間績效", children: h("div", null,
+  form.periods.map(function(p, i) {
+    return h("div", { key:i, style:{ background:"#FAF8F4", border:"1px solid #E0D8CE", padding:"16px 16px 8px", marginBottom:12, borderRadius:3 } },
+      h("div", { className:"mono", style:{ fontSize:11, color:"#999", marginBottom:12 } }, "第 "+(i+1)+" 期"),
+      h("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 } },
+        periodFields.map(function(str) {
+          var parts = str.split(":");
+          var key=parts[0], label=parts[1], ph=parts[2];
+          return h("div", { key:key },
+            h("label", { className:"mono", style:{ display:"block", fontSize:10, color:"#999", textTransform:"uppercase", marginBottom:5 } }, label),
+            h("input", { value:p[key], placeholder:ph, onChange:function(ev){ setPeriod(i, key, ev.target.value); } })
+          );
+        })
+      ),
+      h("div", { style:{ textAlign:"right", marginTop:10 } },
+        h("button", { className:"btn-danger", onClick:function(){ removePeriod(i); } }, "刪除此期")
+      )
+    );
+  }),
+  h("button", { className:"btn-ghost", style:{ width:"100%", marginTop:4 }, onClick:addPeriod }, "＋ 新增一期")
+)}),
+
+h("div", { style:{ display:"flex", gap:12 } },
+  h("button", { className:"btn-gold", style:{ flex:1 }, onClick:handleSave }, saved ? "✓ 已儲存！" : "儲存並更新報告"),
+  h("button", { className:"btn-ghost", onClick:props.onCancel }, "取消")
 ),
-e(“div”, { style: { display: “flex”, gap: 12 } },
-e(“button”, { className: “btn-gold”, style: { flex: 1 }, onClick: handleSave }, saved ? “✓ 已儲存！” : “儲存並更新報告”),
-e(“button”, { className: “btn-ghost”, onClick: onCancel }, “取消”)
-),
-e(“p”, { className: “mono”, style: { fontSize: 11, color: “#AAA”, marginTop: 12, textAlign: “center” } }, “儲存後客戶刷新頁面即可看到最新數據”)
+h("p", { className:"mono", style:{ fontSize:11, color:"#AAA", marginTop:12, textAlign:"center" } }, "儲存後客戶刷新頁面即可看到最新數據")
+```
+
 );
 }
 
 // ── ROOT ──────────────────────────────────────────────────────────────────
 function App() {
-const [data, setData] = useState(() => loadData() || DEFAULT);
-const [mode, setMode] = useState(“client”);
+var dataState = useState(function(){ return loadData() || DEFAULT; });
+var data = dataState[0]; var setData = dataState[1];
+var modeState = useState(“client”);
+var mode = modeState[0]; var setMode = modeState[1];
+
 function handleSave(d) { setData(d); saveData(d); setMode(“client”); }
-if (mode === “client”) return e(ClientView, { data, onAdmin: () => setMode(“pin”) });
-if (mode === “pin”)    return e(PinGate, { onSuccess: () => setMode(“admin”), onCancel: () => setMode(“client”) });
-if (mode === “admin”)  return e(AdminView, { data, onSave: handleSave, onCancel: () => setMode(“client”) });
+
+if (mode === “client”) return h(ClientView, { data:data, onAdmin:function(){ setMode(“pin”); } });
+if (mode === “pin”)    return h(PinGate, { onSuccess:function(){ setMode(“admin”); }, onCancel:function(){ setMode(“client”); } });
+if (mode === “admin”)  return h(AdminView, { data:data, onSave:handleSave, onCancel:function(){ setMode(“client”); } });
+return null;
 }
-ReactDOM.createRoot(document.getElementById(“root”)).render(e(App));
+
+ReactDOM.createRoot(document.getElementById(“root”)).render(h(App, null));
 </script>
 
 </body>
