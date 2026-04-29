@@ -5,101 +5,213 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>投資績效報告</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #F7F5F0; color: #1A1A1A; font-family: 'Noto Serif TC', serif; min-height: 100vh; }
-.container { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
-.mono { font-family: 'DM Mono', monospace; }
-.serif-font { font-family: 'Cormorant Garamond', serif; }
+:root {
+  --white: #ffffff;
+  --bg: #FAFAF8;
+  --ink: #111111;
+  --ink2: #444444;
+  --ink3: #999999;
+  --line: #E8E8E4;
+  --red: #C8000A;
+  --green: #006E35;
+  --gold: #8A6820;
+  --gold-bg: #F5F0E8;
+}
 
-/* Header */
-.header { padding: 52px 0 32px; border-bottom: 2px solid #1A1A1A; margin-bottom: 36px; }
-.header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-.brand { font-family: ‘Cormorant Garamond’, serif; font-size: 12px; letter-spacing: 0.3em; color: #9A7A3A; font-style: italic; }
-.report-date-label { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #666; }
-.main-title { font-family: ‘Cormorant Garamond’, serif; font-size: clamp(36px,7vw,60px); font-weight: 300; line-height: 1.1; }
-.main-title em { font-style: italic; color: #9A7A3A; }
+- { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Hero grid */
-.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 44px; }
-.hero-card { padding: 22px 18px; position: relative; }
-.hero-card.dark { background: #1A1A1A; border: 1px solid #333; }
-.hero-card.light { background: #fff; border: 1px solid #E0D8CE; }
-.hero-card.dark::before { content:’’; position:absolute; top:0; left:0; right:0; height:2px; background:#9A7A3A; }
-.hero-label { font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
-.hero-card.dark .hero-label { color: #888; }
-.hero-card.light .hero-label { color: #999; }
-.hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(17px,3vw,24px); font-weight: 500; }
-.hero-sub { font-family: ‘DM Mono’, monospace; font-size: 10px; margin-top: 6px; }
-.hero-card.dark .hero-sub { color: #666; }
-.hero-card.light .hero-sub { color: #999; }
+body {
+background: var(–bg);
+color: var(–ink);
+font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif;
+font-weight: 300;
+min-height: 100vh;
+-webkit-font-smoothing: antialiased;
+}
 
-/* Section heading */
-.section-heading { display: flex; align-items: center; gap: 14px; margin: 40px 0 16px; }
-.section-heading h2 { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; font-weight: 600; white-space: nowrap; }
-.section-line { flex: 1; height: 1px; background: linear-gradient(90deg, #C8C0B4, transparent); }
+.page { max-width: 640px; margin: 0 auto; padding: 0 28px 100px; }
 
-/* Tables */
-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #E0D8CE; margin-bottom: 0; }
-th { padding: 12px 18px; text-align: left; font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 0.16em; color: #888; font-weight: 400; border-bottom: 1px solid #E8E2D8; text-transform: uppercase; background: #F9F7F3; }
-td { padding: 15px 18px; border-bottom: 1px solid #EDE8E0; font-size: 14px; }
-tr:last-child td { border-bottom: none; }
-.td-label { color: #444; font-size: 13px; width: 52%; }
-.td-value { font-family: ‘DM Mono’, monospace; font-weight: 600; font-size: 15px; color: #1A1A1A; }
-.td-period { font-family: ‘DM Mono’, monospace; font-size: 12px; color: #555; }
-.col-red { color: #C00000; }
-.col-green { color: #007A40; }
-.col-gold { color: #9A7A3A; }
-.total-row { background: #1A1A1A; }
-.total-row td { border-bottom: none; color: #C8A84C; font-family: ‘DM Mono’, monospace; font-size: 12px; }
-.total-row .total-rate { font-size: 15px; font-weight: 600; }
+/* ── HEADER ── */
+.header {
+padding: 56px 0 40px;
+border-bottom: 1px solid var(–ink);
+margin-bottom: 48px;
+}
+.header-meta {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 28px;
+}
+.header-tag {
+font-size: 10px;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–gold);
+font-weight: 500;
+}
+.header-date {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+color: var(–ink3);
+}
+.header-title {
+font-size: clamp(32px, 8vw, 52px);
+font-weight: 700;
+line-height: 1.15;
+letter-spacing: -0.02em;
+}
+.header-title span { color: var(–gold); font-weight: 300; }
 
-/* Footer */
-.footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid #D8D0C4; text-align: center; }
-.footer-line { width: 32px; height: 1px; background: #9A7A3A; margin: 0 auto 12px; }
-.footer p { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #999; margin-top: 4px; }
+/* ── HERO NUMBERS ── */
+.hero { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(–line); margin-bottom: 56px; background: var(–white); }
+.hero-item { padding: 24px 22px; border-right: 1px solid var(–line); border-bottom: 1px solid var(–line); }
+.hero-item:nth-child(2) { border-right: none; }
+.hero-item:nth-child(3) { border-bottom: none; }
+.hero-item:nth-child(4) { border-right: none; border-bottom: none; }
+.hero-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+.hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(18px, 4vw, 26px); font-weight: 500; line-height: 1; }
+.hero-sub { font-size: 10px; color: var(–ink3); margin-top: 8px; font-family: ‘DM Mono’, monospace; }
+.hero-item.featured { background: var(–gold-bg); }
 
-/* Admin button */
-.admin-btn-wrap { text-align: center; margin-top: 40px; }
-.admin-btn { background: transparent; border: 1px solid #C0B8AC; color: #555; font-family: ‘Noto Serif TC’, serif; font-size: 11px; padding: 6px 16px; border-radius: 3px; cursor: pointer; opacity: 0.25; }
+/* ── SECTION ── */
+.section { margin-bottom: 48px; }
+.section-title {
+font-size: 11px;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–ink3);
+font-weight: 500;
+padding-bottom: 12px;
+border-bottom: 1px solid var(–line);
+margin-bottom: 0;
+}
 
-/* Modal overlay */
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
-.overlay.active { display: flex; }
-.modal { background: #fff; border: 1px solid #E0D8CE; border-radius: 4px; padding: 32px; width: 90%; max-width: 320px; text-align: center; }
-.modal h3 { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; margin-bottom: 6px; }
-.modal p { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #999; margin-bottom: 24px; }
-.modal input { background: #fff; border: 1px solid #D0CBC0; color: #1A1A1A; font-family: ‘DM Mono’, monospace; font-size: 20px; padding: 9px 12px; width: 100%; outline: none; border-radius: 3px; text-align: center; letter-spacing: 0.3em; }
-.modal input:focus { border-color: #9A7A3A; }
-.modal-btns { display: flex; gap: 10px; margin-top: 16px; }
-.btn-gold { background: #9A7A3A; color: #fff; font-weight: 600; font-family: ‘Noto Serif TC’, serif; font-size: 14px; padding: 10px 22px; border: none; border-radius: 3px; cursor: pointer; flex: 1; }
-.btn-ghost { background: transparent; border: 1px solid #C0B8AC; color: #555; font-family: ‘Noto Serif TC’, serif; font-size: 14px; padding: 10px 22px; border-radius: 3px; cursor: pointer; }
-.err-msg { color: #C04040; font-size: 12px; margin-top: 8px; font-family: ‘DM Mono’, monospace; }
-.hint { font-family: ‘DM Mono’, monospace; font-size: 10px; color: #BBB; margin-top: 16px; }
+/* ── SUMMARY ROWS ── */
+.row {
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+padding: 16px 0;
+border-bottom: 1px solid var(–line);
+}
+.row-label { font-size: 13px; color: var(–ink2); font-weight: 400; flex: 1; }
+.row-value { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; color: var(–ink); text-align: right; }
 
-/* Admin panel */
+/* ── PERIOD TABLE ── */
+.period-table { width: 100%; border-collapse: collapse; }
+.period-table th {
+font-size: 10px;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–ink3);
+font-weight: 500;
+padding: 12px 0;
+border-bottom: 1px solid var(–line);
+text-align: left;
+}
+.period-table th:not(:first-child) { text-align: right; }
+.period-table td {
+padding: 16px 0;
+border-bottom: 1px solid var(–line);
+font-size: 13px;
+}
+.period-table td:not(:first-child) { text-align: right; }
+.period-table tr:last-child td { border-bottom: none; }
+.period-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); line-height: 1.6; }
+.period-num { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; }
+.total-row td { background: var(–ink); color: var(–white) !important; padding: 14px 10px; }
+.total-row td:first-child { padding-left: 14px; border-radius: 0; }
+.total-row td:last-child { padding-right: 14px; }
+.total-label { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #aaa !important; }
+.total-rate { font-family: ‘DM Mono’, monospace; font-size: 16px; font-weight: 500; }
+
+/* ── COLORS ── */
+.c-red   { color: var(–red); }
+.c-green { color: var(–green); }
+.c-gold  { color: var(–gold); }
+
+/* ── FOOTER ── */
+.footer { padding-top: 40px; border-top: 1px solid var(–line); }
+.footer-text { font-size: 11px; color: var(–ink3); line-height: 2; font-family: ‘DM Mono’, monospace; }
+
+/* ── ADMIN BUTTON ── */
+.admin-trigger { text-align: center; margin-top: 48px; }
+.admin-trigger button {
+background: none; border: none; font-size: 10px; color: var(–line);
+cursor: pointer; letter-spacing: 0.1em; font-family: ‘DM Mono’, monospace;
+}
+
+/* ── OVERLAY / MODAL ── */
+.overlay {
+display: none; position: fixed; inset: 0;
+background: rgba(0,0,0,0.4); z-index: 200;
+align-items: center; justify-content: center;
+}
+.overlay.show { display: flex; }
+.modal {
+background: var(–white); padding: 40px 32px; width: 90%; max-width: 340px;
+border: 1px solid var(–line);
+}
+.modal-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.modal-sub { font-size: 12px; color: var(–ink3); margin-bottom: 28px; font-family: ‘DM Mono’, monospace; }
+.modal input {
+width: 100%; padding: 12px 16px; border: 1px solid var(–line); background: var(–bg);
+font-family: ‘DM Mono’, monospace; font-size: 18px; letter-spacing: 0.3em;
+text-align: center; outline: none; color: var(–ink);
+}
+.modal input:focus { border-color: var(–ink); }
+.modal-err { font-size: 11px; color: var(–red); margin-top: 8px; font-family: ‘DM Mono’, monospace; min-height: 16px; }
+.modal-btns { display: flex; gap: 8px; margin-top: 20px; }
+.btn-primary { flex: 1; background: var(–ink); color: var(–white); border: none; padding: 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif; letter-spacing: 0.05em; }
+.btn-secondary { background: none; border: 1px solid var(–line); color: var(–ink2); padding: 12px 20px; font-size: 13px; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif; }
+.modal-hint { font-size: 10px; color: var(–ink3); text-align: center; margin-top: 16px; font-family: ‘DM Mono’, monospace; }
+
+/* ── ADMIN PANEL ── */
 #admin-panel { display: none; }
-#admin-panel.active { display: block; }
-#client-view.hidden { display: none; }
-.field-group { margin-bottom: 16px; }
-.field-label { display: block; font-family: ‘DM Mono’, monospace; font-size: 10px; color: #888; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-.field-input { background: #fff; border: 1px solid #D0CBC0; color: #1A1A1A; font-family: ‘DM Mono’, monospace; font-size: 14px; padding: 9px 12px; width: 100%; outline: none; border-radius: 3px; }
-.field-input:focus { border-color: #9A7A3A; }
-.admin-section { margin-bottom: 32px; }
-.admin-section-title { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.admin-section-title h3 { font-family: ‘Cormorant Garamond’, serif; font-size: 18px; font-weight: 600; white-space: nowrap; }
-.admin-section-line { flex: 1; height: 1px; background: linear-gradient(90deg, #D8D0C4, transparent); }
-.period-block { background: #FAF8F4; border: 1px solid #E0D8CE; padding: 16px; margin-bottom: 12px; border-radius: 3px; }
-.period-num { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #999; margin-bottom: 12px; }
+#admin-panel.show { display: block; }
+#client-view.hide { display: none; }
+
+.admin-header { padding: 48px 0 32px; border-bottom: 1px solid var(–ink); margin-bottom: 40px; }
+.admin-header-top { display: flex; justify-content: space-between; align-items: center; }
+.admin-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–gold); font-weight: 500; margin-bottom: 8px; }
+.admin-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+
+.field { margin-bottom: 20px; }
+.field label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 8px; }
+.field input {
+width: 100%; padding: 11px 14px; border: 1px solid var(–line);
+background: var(–white); font-family: ‘DM Mono’, monospace;
+font-size: 14px; color: var(–ink); outline: none;
+}
+.field input:focus { border-color: var(–ink); }
+
+.admin-section { margin-bottom: 40px; }
+.admin-section-title {
+font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+color: var(–ink3); font-weight: 500;
+padding-bottom: 12px; border-bottom: 1px solid var(–line); margin-bottom: 24px;
+}
+
+.period-block {
+border: 1px solid var(–line); padding: 20px; margin-bottom: 12px; background: var(–white);
+}
+.period-block-num { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 16px; }
 .period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.delete-btn { background: transparent; border: 1px solid rgba(180,40,40,0.4); color: #B02020; font-size: 12px; padding: 6px 14px; border-radius: 3px; cursor: pointer; margin-top: 10px; float: right; font-family: ‘Noto Serif TC’, serif; }
-.add-period-btn { width: 100%; background: transparent; border: 1px solid #C0B8AC; color: #555; font-family: ‘Noto Serif TC’, serif; font-size: 14px; padding: 10px; border-radius: 3px; cursor: pointer; margin-top: 4px; }
-.save-row { display: flex; gap: 12px; }
-.save-note { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #AAA; margin-top: 12px; text-align: center; }
-.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; padding-top: 40px; }
-.admin-brand { font-family: ‘Cormorant Garamond’, serif; font-size: 11px; letter-spacing: 0.3em; color: #9A7A3A; font-style: italic; margin-bottom: 6px; }
-.admin-title { font-family: ‘Cormorant Garamond’, serif; font-size: 28px; font-weight: 600; }
+.del-btn {
+background: none; border: none; color: var(–ink3); font-size: 11px;
+cursor: pointer; padding: 8px 0 0; font-family: ‘DM Mono’, monospace;
+text-decoration: underline; display: block;
+}
+.add-btn {
+width: 100%; padding: 12px; background: none; border: 1px dashed var(–line);
+color: var(–ink3); font-size: 12px; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif;
+margin-top: 4px; letter-spacing: 0.05em;
+}
+.save-row { display: flex; gap: 8px; margin-top: 8px; }
+.save-note { font-size: 11px; color: var(–ink3); text-align: center; margin-top: 12px; font-family: ‘DM Mono’, monospace; }
 </style>
 
 </head>
@@ -107,110 +219,123 @@ tr:last-child td { border-bottom: none; }
 
 <!-- CLIENT VIEW -->
 
-<div id="client-view" class="container">
+<div id="client-view" class="page">
   <div class="header">
-    <div class="header-top">
-      <span class="brand">Portfolio Performance Report</span>
-      <span class="report-date-label mono" id="disp-reportDate"></span>
+    <div class="header-meta">
+      <span class="header-tag">投資績效報告</span>
+      <span class="header-date" id="d-date"></span>
     </div>
-    <h1 class="main-title">投資<em>績效</em><br>報告總覽</h1>
+    <h1 class="header-title">績效<br><span>總覽</span></h1>
   </div>
 
-  <div class="hero-grid">
-    <div class="hero-card dark">
-      <div class="hero-label">時間加權累積報酬率 (TWR)</div>
-      <div class="hero-value col-red" id="disp-twr"></div>
-      <div class="hero-sub" id="disp-twr-sub"></div>
+  <!-- Hero -->
+
+  <div class="hero">
+    <div class="hero-item featured">
+      <div class="hero-label">時間加權<br>累積報酬率 TWR</div>
+      <div class="hero-value c-red" id="d-twr"></div>
+      <div class="hero-sub" id="d-twr-sub"></div>
     </div>
-    <div class="hero-card dark">
-      <div class="hero-label">推估年化報酬率（單利）</div>
-      <div class="hero-value col-red" id="disp-annualized"></div>
+    <div class="hero-item featured">
+      <div class="hero-label">推估年化<br>報酬率（單利）</div>
+      <div class="hero-value c-red" id="d-ann"></div>
       <div class="hero-sub">TWR 基礎換算</div>
     </div>
-    <div class="hero-card light">
-      <div class="hero-label">累積總獲利（帳戶）</div>
-      <div class="hero-value col-red" id="disp-totalProfit"></div>
+    <div class="hero-item">
+      <div class="hero-label">累積總獲利<br>（帳戶）</div>
+      <div class="hero-value c-red" id="d-profit"></div>
       <div class="hero-sub">期末 — 累計投入</div>
     </div>
-    <div class="hero-card light">
+    <div class="hero-item">
       <div class="hero-label">期末總資金</div>
-      <div class="hero-value" id="disp-endBalance"></div>
-      <div class="hero-sub" id="disp-endDate"></div>
+      <div class="hero-value" id="d-balance"></div>
+      <div class="hero-sub" id="d-bal-date"></div>
     </div>
   </div>
 
-  <div class="section-heading"><h2>帳戶摘要</h2><div class="section-line"></div></div>
-  <table id="summary-table">
-    <tbody>
-      <tr><td class="td-label">總投資天數</td><td class="td-value mono" id="s-totalDays"></td></tr>
-      <tr><td class="td-label">初始投入本金</td><td class="td-value mono" id="s-initialCapital"></td></tr>
-      <tr><td class="td-label">新增投入本金</td><td class="td-value mono" id="s-addedCapital"></td></tr>
-      <tr><td class="td-label">累計投入本金</td><td class="td-value mono" id="s-totalCapital"></td></tr>
-      <tr><td class="td-label" id="s-endLabel">期末總資金</td><td class="td-value mono" id="s-endBalance"></td></tr>
-      <tr><td class="td-label">累積總獲利（帳戶）</td><td class="td-value mono col-red" id="s-totalProfit"></td></tr>
-      <tr><td class="td-label">時間加權累積報酬率（TWR）</td><td class="td-value mono col-gold" id="s-twr"></td></tr>
-      <tr><td class="td-label">推估年化報酬率（TWR・單利）</td><td class="td-value mono col-gold" id="s-annualized"></td></tr>
-    </tbody>
-  </table>
+  <!-- Summary -->
 
-  <div class="section-heading"><h2>各期間績效</h2><div class="section-line"></div></div>
-  <table>
-    <thead><tr><th>區間</th><th>該段獲利</th><th>子區段報酬率</th></tr></thead>
-    <tbody id="periods-body"></tbody>
-  </table>
-
-  <div class="footer">
-    <div class="footer-line"></div>
-    <p>本報告數據由代操方提供・僅供參考</p>
-    <p>報告日期：<span id="disp-footerDate"></span></p>
+  <div class="section">
+    <div class="section-title">帳戶摘要</div>
+    <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
+    <div class="row"><span class="row-label">初始投入本金</span><span class="row-value" id="s-init"></span></div>
+    <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
+    <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
+    <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
+    <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value c-red" id="s-profit"></span></div>
+    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value c-gold" id="s-twr"></span></div>
+    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value c-gold" id="s-ann"></span></div>
   </div>
 
-  <div class="admin-btn-wrap">
-    <button class="admin-btn" onclick="showPin()">管理員</button>
+  <!-- Periods -->
+
+  <div class="section">
+    <div class="section-title">各期間績效</div>
+    <table class="period-table">
+      <thead>
+        <tr>
+          <th>區間</th>
+          <th>該段獲利</th>
+          <th>報酬率</th>
+        </tr>
+      </thead>
+      <tbody id="periods-body"></tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">
+      本報告數據由代操方提供・僅供參考<br>
+      報告日期：<span id="d-footer-date"></span>
+    </div>
+  </div>
+
+  <div class="admin-trigger">
+    <button onclick="showPin()">admin</button>
   </div>
 </div>
 
 <!-- ADMIN PANEL -->
 
-<div id="admin-panel" class="container">
+<div id="admin-panel" class="page">
   <div class="admin-header">
     <div>
-      <div class="admin-brand">Admin Panel</div>
+      <div class="admin-tag">管理後台</div>
       <div class="admin-title">更新報告數據</div>
     </div>
-    <button class="btn-ghost" onclick="showClient()">← 返回</button>
+    <button class="btn-secondary" onclick="showClient()">返回</button>
   </div>
 
   <div class="admin-section">
-    <div class="admin-section-title"><h3>基本資訊</h3><div class="admin-section-line"></div></div>
-    <div class="field-group"><label class="field-label">報告截止日期</label><input class="field-input" id="f-reportDate" placeholder="2026/04/05"></div>
-    <div class="field-group"><label class="field-label">總投資天數</label><input class="field-input" id="f-totalDays" placeholder="126"></div>
+    <div class="admin-section-title">基本資訊</div>
+    <div class="field"><label>報告截止日期</label><input id="f-date" placeholder="2026/04/05"></div>
+    <div class="field"><label>總投資天數</label><input id="f-days" placeholder="126"></div>
   </div>
 
   <div class="admin-section">
-    <div class="admin-section-title"><h3>資金數據</h3><div class="admin-section-line"></div></div>
-    <div class="field-group"><label class="field-label">初始投入本金</label><input class="field-input" id="f-initialCapital" placeholder="2,000,000"></div>
-    <div class="field-group"><label class="field-label">新增投入本金</label><input class="field-input" id="f-addedCapital" placeholder="3,200,000"></div>
-    <div class="field-group"><label class="field-label">累計投入本金</label><input class="field-input" id="f-totalCapital" placeholder="5,200,000"></div>
-    <div class="field-group"><label class="field-label">期末總資金</label><input class="field-input" id="f-endBalance" placeholder="7,027,571"></div>
-    <div class="field-group"><label class="field-label">累積總獲利（帳戶）</label><input class="field-input" id="f-totalProfit" placeholder="1,827,571"></div>
+    <div class="admin-section-title">資金數據</div>
+    <div class="field"><label>初始投入本金</label><input id="f-init" placeholder="2,000,000"></div>
+    <div class="field"><label>新增投入本金</label><input id="f-add" placeholder="3,200,000"></div>
+    <div class="field"><label>累計投入本金</label><input id="f-total" placeholder="5,200,000"></div>
+    <div class="field"><label>期末總資金</label><input id="f-balance" placeholder="7,027,571"></div>
+    <div class="field"><label>累積總獲利（帳戶）</label><input id="f-profit" placeholder="1,827,571"></div>
   </div>
 
   <div class="admin-section">
-    <div class="admin-section-title"><h3>報酬率</h3><div class="admin-section-line"></div></div>
-    <div class="field-group"><label class="field-label">TWR（不含 %，例：+54.05）</label><input class="field-input" id="f-twr" placeholder="+54.05"></div>
-    <div class="field-group"><label class="field-label">年化報酬率（不含 %，例：約 156）</label><input class="field-input" id="f-annualized" placeholder="約 156"></div>
+    <div class="admin-section-title">報酬率</div>
+    <div class="field"><label>TWR（不含 %，例：+54.05）</label><input id="f-twr" placeholder="+54.05"></div>
+    <div class="field"><label>年化報酬率（不含 %，例：約 156）</label><input id="f-ann" placeholder="約 156"></div>
   </div>
 
   <div class="admin-section">
-    <div class="admin-section-title"><h3>各期間績效</h3><div class="admin-section-line"></div></div>
+    <div class="admin-section-title">各期間績效</div>
     <div id="periods-editor"></div>
-    <button class="add-period-btn" onclick="addPeriod()">＋ 新增一期</button>
+    <button class="add-btn" onclick="addPeriod()">＋ 新增一期</button>
   </div>
 
   <div class="save-row">
-    <button class="btn-gold" id="save-btn" onclick="saveData()" style="flex:1">儲存並更新報告</button>
-    <button class="btn-ghost" onclick="showClient()">取消</button>
+    <button class="btn-primary" id="save-btn" onclick="doSave()" style="flex:1">儲存並更新</button>
+    <button class="btn-secondary" onclick="showClient()">取消</button>
   </div>
   <p class="save-note">儲存後客戶刷新頁面即可看到最新數據</p>
 </div>
@@ -219,188 +344,175 @@ tr:last-child td { border-bottom: none; }
 
 <div class="overlay" id="pin-overlay">
   <div class="modal">
-    <h3>管理員登入</h3>
-    <p>請輸入密碼</p>
-    <input type="password" id="pin-input" placeholder="••••" onkeydown="if(event.key==='Enter')checkPin()">
-    <div class="err-msg" id="pin-err" style="display:none">密碼錯誤</div>
+    <div class="modal-title">管理員登入</div>
+    <div class="modal-sub">請輸入密碼</div>
+    <input type="password" id="pin-input" placeholder="• • • •" onkeydown="if(event.key==='Enter')checkPin()">
+    <div class="modal-err" id="pin-err"></div>
     <div class="modal-btns">
-      <button class="btn-gold" onclick="checkPin()">確認</button>
-      <button class="btn-ghost" onclick="hidePin()">取消</button>
+      <button class="btn-primary" onclick="checkPin()">確認</button>
+      <button class="btn-secondary" onclick="hidePin()">取消</button>
     </div>
-    <div class="hint">預設密碼：0000</div>
+    <div class="modal-hint">預設密碼：0000</div>
   </div>
 </div>
 
 <script>
-var STORAGE_KEY = "inv_report_v3";
-var ADMIN_PIN = "0000";
+var KEY = "inv_v4";
+var PIN = "0000";
 
-var defaultData = {
-  reportDate: "2026/04/05", totalDays: "126",
-  initialCapital: "2,000,000", addedCapital: "3,200,000",
-  totalCapital: "5,200,000", endBalance: "7,027,571",
-  totalProfit: "1,827,571", twr: "+54.05", annualized: "約 156",
-  periods: [
-    { from:"2025/12/01", to:"2026/01/04", profit:"+544,814", rate:"+29.40" },
-    { from:"2026/01/06", to:"2026/02/05", profit:"+856,380", rate:"+14.91" },
-    { from:"2026/02/06", to:"2026/03/05", profit:"+886,099", rate:"+13.42" },
-    { from:"2026/03/06", to:"2026/04/05", profit:"-459,722", rate:"-6.14" },
+var def = {
+  date:"2026/04/05", days:"126",
+  init:"2,000,000", add:"3,200,000", total:"5,200,000",
+  balance:"7,027,571", profit:"1,827,571",
+  twr:"+54.05", ann:"約 156",
+  periods:[
+    {from:"2025/12/01",to:"2026/01/04",profit:"+544,814",rate:"+29.40"},
+    {from:"2026/01/06",to:"2026/02/05",profit:"+856,380",rate:"+14.91"},
+    {from:"2026/02/06",to:"2026/03/05",profit:"+886,099",rate:"+13.42"},
+    {from:"2026/03/06",to:"2026/04/05",profit:"-459,722",rate:"-6.14"},
   ]
 };
 
-function loadData() {
-  try { var r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch(e) {}
-  return JSON.parse(JSON.stringify(defaultData));
+function load() { try { var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); } catch(e){} return JSON.parse(JSON.stringify(def)); }
+function save(d) { try { localStorage.setItem(KEY,JSON.stringify(d)); } catch(e){} }
+
+var D = load();
+
+function pos(v) { return String(v).trim()[0] !== "-"; }
+function rc(v) { return pos(v) ? "c-red" : "c-green"; }
+
+function setText(id, val, cls) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = val;
+  if (cls) { el.className = el.className.replace(/c-\w+/g,"").trim(); el.classList.add(cls); }
 }
 
-var data = loadData();
-
-function isPos(v) { return String(v).trim().charAt(0) !== "-"; }
-function numColor(v) { return isPos(v) ? "#C00000" : "#007A40"; }
-
 function renderClient() {
-  var first = data.periods.length ? data.periods[0].from : "";
-  var last  = data.periods.length ? data.periods[data.periods.length-1].to : "";
+  var first = D.periods.length ? D.periods[0].from : "";
+  var last  = D.periods.length ? D.periods[D.periods.length-1].to : "";
 
-  document.getElementById("disp-reportDate").textContent = "截至 " + data.reportDate;
-  document.getElementById("disp-twr").textContent = data.twr + "%";
-  document.getElementById("disp-twr").style.color = numColor(data.twr);
-  document.getElementById("disp-twr-sub").textContent = first + " — " + data.reportDate;
-  document.getElementById("disp-annualized").textContent = data.annualized + "%";
-  document.getElementById("disp-annualized").style.color = numColor(data.annualized);
-  document.getElementById("disp-totalProfit").textContent = "$" + data.totalProfit;
-  document.getElementById("disp-endBalance").textContent = "$" + data.endBalance;
-  document.getElementById("disp-endDate").textContent = data.reportDate;
-  document.getElementById("disp-footerDate").textContent = data.reportDate;
+  setText("d-date", "截至 " + D.date);
+  setText("d-twr", D.twr + "%", rc(D.twr));
+  setText("d-twr-sub", first + " — " + D.date);
+  setText("d-ann", D.ann + "%", rc(D.ann));
+  setText("d-profit", "$" + D.profit, "c-red");
+  setText("d-balance", "$" + D.balance);
+  setText("d-bal-date", D.date);
+  setText("d-footer-date", D.date);
 
-  document.getElementById("s-totalDays").textContent = data.totalDays + " 天";
-  document.getElementById("s-initialCapital").textContent = "$" + data.initialCapital;
-  document.getElementById("s-addedCapital").textContent = "$" + data.addedCapital;
-  document.getElementById("s-totalCapital").textContent = "$" + data.totalCapital;
-  document.getElementById("s-endLabel").textContent = "期末總資金（" + data.reportDate + "）";
-  document.getElementById("s-endBalance").textContent = "$" + data.endBalance;
-  document.getElementById("s-totalProfit").textContent = "$" + data.totalProfit;
-  document.getElementById("s-twr").textContent = data.twr + "%";
-  document.getElementById("s-annualized").textContent = data.annualized + "%";
+  setText("s-days", D.days + " 天");
+  setText("s-init", "$" + D.init);
+  setText("s-add", "$" + D.add);
+  setText("s-total", "$" + D.total);
+  document.getElementById("s-end-label").textContent = "期末總資金（" + D.date + "）";
+  setText("s-balance", "$" + D.balance);
+  setText("s-profit", "$" + D.profit);
+  setText("s-twr", D.twr + "%");
+  setText("s-ann", D.ann + "%");
 
   var tbody = document.getElementById("periods-body");
   tbody.innerHTML = "";
-  data.periods.forEach(function(p) {
+  D.periods.forEach(function(p) {
     var tr = document.createElement("tr");
+    var pClass = pos(p.profit) ? "c-red" : "c-green";
+    var rClass = pos(p.rate) ? "c-red" : "c-green";
     tr.innerHTML =
-      '<td class="td-period">' + p.from + " — " + p.to + '</td>' +
-      '<td class="mono" style="font-size:15px;font-weight:600;color:' + numColor(p.profit) + '">' + p.profit + '</td>' +
-      '<td class="mono" style="font-size:15px;font-weight:600;color:' + numColor(p.rate) + '">' + p.rate + '%</td>';
+      '<td><div class="period-date">' + p.from + '<br>— ' + p.to + '</div></td>' +
+      '<td><span class="period-num ' + pClass + '">' + p.profit + '</span></td>' +
+      '<td><span class="period-num ' + rClass + '">' + p.rate + '%</span></td>';
     tbody.appendChild(tr);
   });
 
   var totalTr = document.createElement("tr");
   totalTr.className = "total-row";
+  var totClass = pos(D.twr) ? "c-red" : "c-green";
   totalTr.innerHTML =
-    '<td>' + first + " — " + last + "（合計）</td>" +
-    '<td>—</td>' +
-    '<td class="total-rate" style="color:' + numColor(data.twr) + '">' + data.twr + '%</td>';
+    '<td><span class="total-label">' + first + ' — ' + last + '（合計）</span></td>' +
+    '<td><span class="total-label">—</span></td>' +
+    '<td><span class="total-rate ' + totClass + '">' + D.twr + '%</span></td>';
   tbody.appendChild(totalTr);
 }
 
 function renderAdmin() {
-  document.getElementById("f-reportDate").value = data.reportDate;
-  document.getElementById("f-totalDays").value = data.totalDays;
-  document.getElementById("f-initialCapital").value = data.initialCapital;
-  document.getElementById("f-addedCapital").value = data.addedCapital;
-  document.getElementById("f-totalCapital").value = data.totalCapital;
-  document.getElementById("f-endBalance").value = data.endBalance;
-  document.getElementById("f-totalProfit").value = data.totalProfit;
-  document.getElementById("f-twr").value = data.twr;
-  document.getElementById("f-annualized").value = data.annualized;
-  renderPeriodsEditor();
+  document.getElementById("f-date").value = D.date;
+  document.getElementById("f-days").value = D.days;
+  document.getElementById("f-init").value = D.init;
+  document.getElementById("f-add").value = D.add;
+  document.getElementById("f-total").value = D.total;
+  document.getElementById("f-balance").value = D.balance;
+  document.getElementById("f-profit").value = D.profit;
+  document.getElementById("f-twr").value = D.twr;
+  document.getElementById("f-ann").value = D.ann;
+  renderPeriods();
 }
 
-function renderPeriodsEditor() {
-  var container = document.getElementById("periods-editor");
-  container.innerHTML = "";
-  data.periods.forEach(function(p, i) {
+function renderPeriods() {
+  var c = document.getElementById("periods-editor");
+  c.innerHTML = "";
+  D.periods.forEach(function(p, i) {
     var div = document.createElement("div");
     div.className = "period-block";
     div.innerHTML =
-      '<div class="period-num">第 ' + (i+1) + ' 期</div>' +
+      '<div class="period-block-num">第 ' + (i+1) + ' 期</div>' +
       '<div class="period-grid">' +
-        '<div><label class="field-label">開始日期</label><input class="field-input" data-i="'+i+'" data-k="from" value="'+p.from+'" placeholder="2025/12/01"></div>' +
-        '<div><label class="field-label">結束日期</label><input class="field-input" data-i="'+i+'" data-k="to" value="'+p.to+'" placeholder="2026/01/04"></div>' +
-        '<div><label class="field-label">該段獲利（含正負號）</label><input class="field-input" data-i="'+i+'" data-k="profit" value="'+p.profit+'" placeholder="+544,814"></div>' +
-        '<div><label class="field-label">報酬率（不含 %）</label><input class="field-input" data-i="'+i+'" data-k="rate" value="'+p.rate+'" placeholder="+29.40"></div>' +
+        '<div class="field"><label>開始日期</label><input data-i="'+i+'" data-k="from" value="'+p.from+'" placeholder="2025/12/01"></div>' +
+        '<div class="field"><label>結束日期</label><input data-i="'+i+'" data-k="to" value="'+p.to+'" placeholder="2026/01/04"></div>' +
+        '<div class="field"><label>該段獲利（含正負號）</label><input data-i="'+i+'" data-k="profit" value="'+p.profit+'" placeholder="+544,814"></div>' +
+        '<div class="field"><label>報酬率（不含 %）</label><input data-i="'+i+'" data-k="rate" value="'+p.rate+'" placeholder="+29.40"></div>' +
       '</div>' +
-      '<button class="delete-btn" onclick="removePeriod('+i+')">刪除此期</button>' +
-      '<div style="clear:both"></div>';
-    container.appendChild(div);
+      '<button class="del-btn" onclick="delPeriod('+i+')">刪除此期</button>';
+    c.appendChild(div);
   });
-  container.querySelectorAll(".field-input[data-i]").forEach(function(input) {
-    input.addEventListener("input", function() {
-      data.periods[this.dataset.i][this.dataset.k] = this.value;
-    });
+  c.querySelectorAll("input[data-i]").forEach(function(inp) {
+    inp.addEventListener("input", function() { D.periods[this.dataset.i][this.dataset.k] = this.value; });
   });
 }
 
-function addPeriod() {
-  data.periods.push({ from:"", to:"", profit:"", rate:"" });
-  renderPeriodsEditor();
-}
+function addPeriod() { D.periods.push({from:"",to:"",profit:"",rate:""}); renderPeriods(); }
+function delPeriod(i) { D.periods.splice(i,1); renderPeriods(); }
 
-function removePeriod(i) {
-  data.periods.splice(i, 1);
-  renderPeriodsEditor();
-}
-
-function saveData() {
-  data.reportDate = document.getElementById("f-reportDate").value;
-  data.totalDays = document.getElementById("f-totalDays").value;
-  data.initialCapital = document.getElementById("f-initialCapital").value;
-  data.addedCapital = document.getElementById("f-addedCapital").value;
-  data.totalCapital = document.getElementById("f-totalCapital").value;
-  data.endBalance = document.getElementById("f-endBalance").value;
-  data.totalProfit = document.getElementById("f-totalProfit").value;
-  data.twr = document.getElementById("f-twr").value;
-  data.annualized = document.getElementById("f-annualized").value;
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+function doSave() {
+  D.date    = document.getElementById("f-date").value;
+  D.days    = document.getElementById("f-days").value;
+  D.init    = document.getElementById("f-init").value;
+  D.add     = document.getElementById("f-add").value;
+  D.total   = document.getElementById("f-total").value;
+  D.balance = document.getElementById("f-balance").value;
+  D.profit  = document.getElementById("f-profit").value;
+  D.twr     = document.getElementById("f-twr").value;
+  D.ann     = document.getElementById("f-ann").value;
+  save(D);
   var btn = document.getElementById("save-btn");
-  btn.textContent = "✓ 已儲存！";
-  setTimeout(function(){ btn.textContent = "儲存並更新報告"; }, 2000);
-  renderClient();
+  btn.textContent = "✓ 已儲存";
+  setTimeout(function(){ btn.textContent = "儲存並更新"; }, 2000);
   showClient();
 }
 
 function showClient() {
-  document.getElementById("client-view").classList.remove("hidden");
-  document.getElementById("admin-panel").classList.remove("active");
+  document.getElementById("client-view").classList.remove("hide");
+  document.getElementById("admin-panel").classList.remove("show");
   renderClient();
 }
-
 function showAdmin() {
-  document.getElementById("client-view").classList.add("hidden");
-  document.getElementById("admin-panel").classList.add("active");
+  document.getElementById("client-view").classList.add("hide");
+  document.getElementById("admin-panel").classList.add("show");
   renderAdmin();
 }
-
 function showPin() {
-  document.getElementById("pin-overlay").classList.add("active");
+  document.getElementById("pin-overlay").classList.add("show");
   document.getElementById("pin-input").value = "";
-  document.getElementById("pin-err").style.display = "none";
+  document.getElementById("pin-err").textContent = "";
   setTimeout(function(){ document.getElementById("pin-input").focus(); }, 100);
 }
-
-function hidePin() {
-  document.getElementById("pin-overlay").classList.remove("active");
-}
-
+function hidePin() { document.getElementById("pin-overlay").classList.remove("show"); }
 function checkPin() {
-  var pin = document.getElementById("pin-input").value;
-  if (pin === ADMIN_PIN) {
-    hidePin();
-    showAdmin();
+  if (document.getElementById("pin-input").value === PIN) {
+    hidePin(); showAdmin();
   } else {
-    document.getElementById("pin-err").style.display = "block";
+    document.getElementById("pin-err").textContent = "密碼錯誤";
     document.getElementById("pin-input").value = "";
-    setTimeout(function(){ document.getElementById("pin-err").style.display = "none"; }, 1200);
+    setTimeout(function(){ document.getElementById("pin-err").textContent = ""; }, 1200);
   }
 }
 
