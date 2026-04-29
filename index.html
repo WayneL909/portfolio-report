@@ -77,7 +77,7 @@ periods: [
 
 function isPos(v) { return !String(v).trim().startsWith(”-”); }
 function ColorVal({ val, suffix=”” }) {
-return e(“span”, { style: { color: isPos(val) ? “#1E7A50” : “#B03030”, fontWeight: 600 } }, val + suffix);
+return e(“span”, { style: { color: isPos(val) ? “#B03030” : “#1E7A50”, fontWeight: 600 } }, val + suffix);
 }
 function SectionHeading({ title }) {
 return e(“div”, { className: “section-heading” },
@@ -109,7 +109,7 @@ e("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, mar
   ...[
     { label: "時間加權累積報酬率 (TWR)", value: data.twr + "%", sub: first + " — " + data.reportDate, dark: true, color: "#C8A84C" },
     { label: "推估年化報酬率（單利）",   value: data.annualized + "%", sub: "TWR 基礎換算", dark: true, color: "#C8A84C" },
-    { label: "累積總獲利（帳戶）",        value: "$" + data.totalProfit, sub: "期末 — 累計投入", dark: false, color: "#1E7A50" },
+    { label: "累積總獲利（帳戶）",        value: "$" + data.totalProfit, sub: "期末 — 累計投入", dark: false, color: "#B03030" },
     { label: "期末總資金",               value: "$" + data.endBalance, sub: data.reportDate, dark: false, color: "#1A1A1A" },
   ].map((c, i) =>
     e("div", { key: i, className: "fadein", style: {
@@ -143,7 +143,7 @@ e("table", null,
         e("td", { style: { color: "#444", fontSize: 13, width: "52%", fontWeight: 400 } }, label),
         e("td", { className: "mono", style: {
           fontWeight: 600, fontSize: 15,
-          color: type === "green" ? "#1E7A50" : type === "gold" ? "#9A7A3A" : "#1A1A1A"
+          color: type === "green" ? "#B03030" : type === "gold" ? "#9A7A3A" : "#1A1A1A"
         }}, val)
       )
     )
