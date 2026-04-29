@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>投資績效報告</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --white: #ffffff;
   --bg: #FAFAF8;
+  --white: #ffffff;
   --ink: #111111;
   --ink2: #444444;
   --ink3: #999999;
@@ -33,183 +33,103 @@ min-height: 100vh;
 
 .page { max-width: 640px; margin: 0 auto; padding: 0 28px 100px; }
 
-/* ── HEADER ── */
-.header {
-padding: 56px 0 40px;
-border-bottom: 1px solid var(–ink);
-margin-bottom: 48px;
-}
-.header-meta {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 28px;
-}
-.header-tag {
-font-size: 10px;
-letter-spacing: 0.25em;
-text-transform: uppercase;
-color: var(–gold);
-font-weight: 500;
-}
-.header-date {
-font-family: ‘DM Mono’, monospace;
-font-size: 11px;
-color: var(–ink3);
-}
-.header-title {
-font-size: clamp(32px, 8vw, 52px);
-font-weight: 700;
-line-height: 1.15;
-letter-spacing: -0.02em;
-}
+/* HEADER */
+.header { padding: 56px 0 40px; border-bottom: 1px solid var(–ink); margin-bottom: 48px; }
+.header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.header-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–gold); font-weight: 500; }
+.header-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); }
+.header-title { font-size: clamp(32px, 8vw, 52px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
 .header-title span { color: var(–gold); font-weight: 300; }
 
-/* ── HERO NUMBERS ── */
+/* HERO */
 .hero { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(–line); margin-bottom: 56px; background: var(–white); }
 .hero-item { padding: 24px 22px; border-right: 1px solid var(–line); border-bottom: 1px solid var(–line); }
 .hero-item:nth-child(2) { border-right: none; }
 .hero-item:nth-child(3) { border-bottom: none; }
 .hero-item:nth-child(4) { border-right: none; border-bottom: none; }
-.hero-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+.hero-item.featured { background: var(–gold-bg); }
+.hero-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.6; }
 .hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(18px, 4vw, 26px); font-weight: 500; line-height: 1; }
 .hero-sub { font-size: 10px; color: var(–ink3); margin-top: 8px; font-family: ‘DM Mono’, monospace; }
-.hero-item.featured { background: var(–gold-bg); }
 
-/* ── SECTION ── */
+/* SECTION */
 .section { margin-bottom: 48px; }
 .section-title {
-font-size: 11px;
-letter-spacing: 0.25em;
-text-transform: uppercase;
-color: var(–ink3);
-font-weight: 500;
-padding-bottom: 12px;
-border-bottom: 1px solid var(–line);
+font-size: 22px;
+font-weight: 700;
+letter-spacing: -0.01em;
+color: var(–ink);
+padding-bottom: 14px;
+border-bottom: 1px solid var(–ink);
 margin-bottom: 0;
 }
 
-/* ── SUMMARY ROWS ── */
-.row {
-display: flex;
-justify-content: space-between;
-align-items: baseline;
-padding: 16px 0;
-border-bottom: 1px solid var(–line);
-}
+/* SUMMARY ROWS */
+.row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(–line); }
 .row-label { font-size: 13px; color: var(–ink2); font-weight: 400; flex: 1; }
 .row-value { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; color: var(–ink); text-align: right; }
 
-/* ── PERIOD TABLE ── */
+/* PERIOD TABLE */
 .period-table { width: 100%; border-collapse: collapse; }
-.period-table th {
-font-size: 10px;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–ink3);
-font-weight: 500;
-padding: 12px 0;
-border-bottom: 1px solid var(–line);
-text-align: left;
-}
+.period-table th { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(–ink3); font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(–line); text-align: left; }
 .period-table th:not(:first-child) { text-align: right; }
-.period-table td {
-padding: 16px 0;
-border-bottom: 1px solid var(–line);
-font-size: 13px;
-}
+.period-table td { padding: 16px 0; border-bottom: 1px solid var(–line); font-size: 13px; }
 .period-table td:not(:first-child) { text-align: right; }
 .period-table tr:last-child td { border-bottom: none; }
-.period-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); line-height: 1.6; }
+.period-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); line-height: 1.7; }
 .period-num { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; }
-.total-row td { background: var(–ink); color: var(–white) !important; padding: 14px 10px; }
-.total-row td:first-child { padding-left: 14px; border-radius: 0; }
+.total-row td { background: var(–ink); padding: 14px 10px; }
+.total-row td:first-child { padding-left: 14px; }
 .total-row td:last-child { padding-right: 14px; }
-.total-label { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #aaa !important; }
+.total-label { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #aaa; }
 .total-rate { font-family: ‘DM Mono’, monospace; font-size: 16px; font-weight: 500; }
 
-/* ── COLORS ── */
-.c-red   { color: var(–red); }
-.c-green { color: var(–green); }
-.c-gold  { color: var(–gold); }
+/* COLORS — 紅漲綠跌 */
+.c-red   { color: var(–red) !important; }
+.c-green { color: var(–green) !important; }
+.c-gold  { color: var(–gold) !important; }
 
-/* ── FOOTER ── */
+/* FOOTER */
 .footer { padding-top: 40px; border-top: 1px solid var(–line); }
-.footer-text { font-size: 11px; color: var(–ink3); line-height: 2; font-family: ‘DM Mono’, monospace; }
+.footer-text { font-size: 11px; color: var(–ink3); line-height: 2.2; font-family: ‘DM Mono’, monospace; }
 
-/* ── ADMIN BUTTON ── */
+/* ADMIN BUTTON */
 .admin-trigger { text-align: center; margin-top: 48px; }
-.admin-trigger button {
-background: none; border: none; font-size: 10px; color: var(–line);
-cursor: pointer; letter-spacing: 0.1em; font-family: ‘DM Mono’, monospace;
-}
+.admin-trigger button { background: none; border: none; font-size: 10px; color: var(–line); cursor: pointer; letter-spacing: 0.1em; font-family: ‘DM Mono’, monospace; }
 
-/* ── OVERLAY / MODAL ── */
-.overlay {
-display: none; position: fixed; inset: 0;
-background: rgba(0,0,0,0.4); z-index: 200;
-align-items: center; justify-content: center;
-}
+/* OVERLAY */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; }
 .overlay.show { display: flex; }
-.modal {
-background: var(–white); padding: 40px 32px; width: 90%; max-width: 340px;
-border: 1px solid var(–line);
-}
-.modal-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.modal { background: var(–white); padding: 40px 32px; width: 90%; max-width: 340px; border: 1px solid var(–line); }
+.modal-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
 .modal-sub { font-size: 12px; color: var(–ink3); margin-bottom: 28px; font-family: ‘DM Mono’, monospace; }
-.modal input {
-width: 100%; padding: 12px 16px; border: 1px solid var(–line); background: var(–bg);
-font-family: ‘DM Mono’, monospace; font-size: 18px; letter-spacing: 0.3em;
-text-align: center; outline: none; color: var(–ink);
-}
+.modal input { width: 100%; padding: 12px 16px; border: 1px solid var(–line); background: var(–bg); font-family: ‘DM Mono’, monospace; font-size: 20px; letter-spacing: 0.3em; text-align: center; outline: none; color: var(–ink); }
 .modal input:focus { border-color: var(–ink); }
 .modal-err { font-size: 11px; color: var(–red); margin-top: 8px; font-family: ‘DM Mono’, monospace; min-height: 16px; }
 .modal-btns { display: flex; gap: 8px; margin-top: 20px; }
-.btn-primary { flex: 1; background: var(–ink); color: var(–white); border: none; padding: 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif; letter-spacing: 0.05em; }
-.btn-secondary { background: none; border: 1px solid var(–line); color: var(–ink2); padding: 12px 20px; font-size: 13px; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif; }
+.btn-primary { flex: 1; background: var(–ink); color: var(–white); border: none; padding: 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; letter-spacing: 0.05em; }
+.btn-secondary { background: none; border: 1px solid var(–line); color: var(–ink2); padding: 12px 20px; font-size: 13px; cursor: pointer; font-family: inherit; }
 .modal-hint { font-size: 10px; color: var(–ink3); text-align: center; margin-top: 16px; font-family: ‘DM Mono’, monospace; }
 
-/* ── ADMIN PANEL ── */
+/* ADMIN PANEL */
 #admin-panel { display: none; }
 #admin-panel.show { display: block; }
 #client-view.hide { display: none; }
-
 .admin-header { padding: 48px 0 32px; border-bottom: 1px solid var(–ink); margin-bottom: 40px; }
 .admin-header-top { display: flex; justify-content: space-between; align-items: center; }
 .admin-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–gold); font-weight: 500; margin-bottom: 8px; }
 .admin-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
-
 .field { margin-bottom: 20px; }
 .field label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 8px; }
-.field input {
-width: 100%; padding: 11px 14px; border: 1px solid var(–line);
-background: var(–white); font-family: ‘DM Mono’, monospace;
-font-size: 14px; color: var(–ink); outline: none;
-}
+.field input { width: 100%; padding: 11px 14px; border: 1px solid var(–line); background: var(–white); font-family: ‘DM Mono’, monospace; font-size: 14px; color: var(–ink); outline: none; }
 .field input:focus { border-color: var(–ink); }
-
 .admin-section { margin-bottom: 40px; }
-.admin-section-title {
-font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
-color: var(–ink3); font-weight: 500;
-padding-bottom: 12px; border-bottom: 1px solid var(–line); margin-bottom: 24px;
-}
-
-.period-block {
-border: 1px solid var(–line); padding: 20px; margin-bottom: 12px; background: var(–white);
-}
+.admin-section-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–ink3); font-weight: 500; padding-bottom: 12px; border-bottom: 1px solid var(–line); margin-bottom: 24px; }
+.period-block { border: 1px solid var(–line); padding: 20px; margin-bottom: 12px; background: var(–white); }
 .period-block-num { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 16px; }
 .period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.del-btn {
-background: none; border: none; color: var(–ink3); font-size: 11px;
-cursor: pointer; padding: 8px 0 0; font-family: ‘DM Mono’, monospace;
-text-decoration: underline; display: block;
-}
-.add-btn {
-width: 100%; padding: 12px; background: none; border: 1px dashed var(–line);
-color: var(–ink3); font-size: 12px; cursor: pointer; font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif;
-margin-top: 4px; letter-spacing: 0.05em;
-}
+.del-btn { background: none; border: none; color: var(–ink3); font-size: 11px; cursor: pointer; padding: 8px 0 0; font-family: ‘DM Mono’, monospace; text-decoration: underline; display: block; }
+.add-btn { width: 100%; padding: 12px; background: none; border: 1px dashed var(–line); color: var(–ink3); font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 4px; }
 .save-row { display: flex; gap: 8px; margin-top: 8px; }
 .save-note { font-size: 11px; color: var(–ink3); text-align: center; margin-top: 12px; font-family: ‘DM Mono’, monospace; }
 </style>
@@ -228,21 +148,19 @@ margin-top: 4px; letter-spacing: 0.05em;
     <h1 class="header-title">績效<br><span>總覽</span></h1>
   </div>
 
-  <!-- Hero -->
-
   <div class="hero">
     <div class="hero-item featured">
-      <div class="hero-label">時間加權<br>累積報酬率 TWR</div>
+      <div class="hero-label">時間加權累積報酬率 TWR</div>
       <div class="hero-value c-red" id="d-twr"></div>
       <div class="hero-sub" id="d-twr-sub"></div>
     </div>
     <div class="hero-item featured">
-      <div class="hero-label">推估年化<br>報酬率（單利）</div>
+      <div class="hero-label">推估年化報酬率（單利）</div>
       <div class="hero-value c-red" id="d-ann"></div>
       <div class="hero-sub">TWR 基礎換算</div>
     </div>
     <div class="hero-item">
-      <div class="hero-label">累積總獲利<br>（帳戶）</div>
+      <div class="hero-label">累積總獲利（帳戶）</div>
       <div class="hero-value c-red" id="d-profit"></div>
       <div class="hero-sub">期末 — 累計投入</div>
     </div>
@@ -253,8 +171,6 @@ margin-top: 4px; letter-spacing: 0.05em;
     </div>
   </div>
 
-  <!-- Summary -->
-
   <div class="section">
     <div class="section-title">帳戶摘要</div>
     <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
@@ -263,21 +179,15 @@ margin-top: 4px; letter-spacing: 0.05em;
     <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
     <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
     <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value c-red" id="s-profit"></span></div>
-    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value c-gold" id="s-twr"></span></div>
-    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value c-gold" id="s-ann"></span></div>
+    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value c-red" id="s-twr"></span></div>
+    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value c-red" id="s-ann"></span></div>
   </div>
-
-  <!-- Periods -->
 
   <div class="section">
     <div class="section-title">各期間績效</div>
     <table class="period-table">
       <thead>
-        <tr>
-          <th>區間</th>
-          <th>該段獲利</th>
-          <th>報酬率</th>
-        </tr>
+        <tr><th>區間</th><th>該段獲利</th><th>報酬率</th></tr>
       </thead>
       <tbody id="periods-body"></tbody>
     </table>
@@ -289,21 +199,20 @@ margin-top: 4px; letter-spacing: 0.05em;
       報告日期：<span id="d-footer-date"></span>
     </div>
   </div>
-
-  <div class="admin-trigger">
-    <button onclick="showPin()">admin</button>
-  </div>
+  <div class="admin-trigger"><button onclick="showPin()">admin</button></div>
 </div>
 
 <!-- ADMIN PANEL -->
 
 <div id="admin-panel" class="page">
   <div class="admin-header">
-    <div>
-      <div class="admin-tag">管理後台</div>
-      <div class="admin-title">更新報告數據</div>
+    <div class="admin-header-top">
+      <div>
+        <div class="admin-tag">管理後台</div>
+        <div class="admin-title">更新報告數據</div>
+      </div>
+      <button class="btn-secondary" onclick="showClient()">返回</button>
     </div>
-    <button class="btn-secondary" onclick="showClient()">返回</button>
   </div>
 
   <div class="admin-section">
@@ -311,7 +220,6 @@ margin-top: 4px; letter-spacing: 0.05em;
     <div class="field"><label>報告截止日期</label><input id="f-date" placeholder="2026/04/05"></div>
     <div class="field"><label>總投資天數</label><input id="f-days" placeholder="126"></div>
   </div>
-
   <div class="admin-section">
     <div class="admin-section-title">資金數據</div>
     <div class="field"><label>初始投入本金</label><input id="f-init" placeholder="2,000,000"></div>
@@ -320,13 +228,11 @@ margin-top: 4px; letter-spacing: 0.05em;
     <div class="field"><label>期末總資金</label><input id="f-balance" placeholder="7,027,571"></div>
     <div class="field"><label>累積總獲利（帳戶）</label><input id="f-profit" placeholder="1,827,571"></div>
   </div>
-
   <div class="admin-section">
     <div class="admin-section-title">報酬率</div>
     <div class="field"><label>TWR（不含 %，例：+54.05）</label><input id="f-twr" placeholder="+54.05"></div>
     <div class="field"><label>年化報酬率（不含 %，例：約 156）</label><input id="f-ann" placeholder="約 156"></div>
   </div>
-
   <div class="admin-section">
     <div class="admin-section-title">各期間績效</div>
     <div id="periods-editor"></div>
@@ -379,24 +285,21 @@ function save(d) { try { localStorage.setItem(KEY,JSON.stringify(d)); } catch(e)
 var D = load();
 
 function pos(v) { return String(v).trim()[0] !== "-"; }
-function rc(v) { return pos(v) ? "c-red" : "c-green"; }
 
-function setText(id, val, cls) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = val;
-  if (cls) { el.className = el.className.replace(/c-\w+/g,"").trim(); el.classList.add(cls); }
-}
+// 正數=紅，負數=綠
+function periodColor(v) { return pos(v) ? "c-red" : "c-green"; }
+
+function setText(id, val) { var el=document.getElementById(id); if(el) el.textContent=val; }
 
 function renderClient() {
   var first = D.periods.length ? D.periods[0].from : "";
   var last  = D.periods.length ? D.periods[D.periods.length-1].to : "";
 
   setText("d-date", "截至 " + D.date);
-  setText("d-twr", D.twr + "%", rc(D.twr));
+  setText("d-twr", D.twr + "%");
   setText("d-twr-sub", first + " — " + D.date);
-  setText("d-ann", D.ann + "%", rc(D.ann));
-  setText("d-profit", "$" + D.profit, "c-red");
+  setText("d-ann", D.ann + "%");
+  setText("d-profit", "$" + D.profit);
   setText("d-balance", "$" + D.balance);
   setText("d-bal-date", D.date);
   setText("d-footer-date", D.date);
@@ -415,18 +318,19 @@ function renderClient() {
   tbody.innerHTML = "";
   D.periods.forEach(function(p) {
     var tr = document.createElement("tr");
-    var pClass = pos(p.profit) ? "c-red" : "c-green";
-    var rClass = pos(p.rate) ? "c-red" : "c-green";
+    var pc = periodColor(p.profit);
+    var rc = periodColor(p.rate);
     tr.innerHTML =
       '<td><div class="period-date">' + p.from + '<br>— ' + p.to + '</div></td>' +
-      '<td><span class="period-num ' + pClass + '">' + p.profit + '</span></td>' +
-      '<td><span class="period-num ' + rClass + '">' + p.rate + '%</span></td>';
+      '<td><span class="period-num ' + pc + '">' + p.profit + '</span></td>' +
+      '<td><span class="period-num ' + rc + '">' + p.rate + '%</span></td>';
     tbody.appendChild(tr);
   });
 
+  // 合計列：TWR 正=紅 負=綠
+  var totClass = periodColor(D.twr);
   var totalTr = document.createElement("tr");
   totalTr.className = "total-row";
-  var totClass = pos(D.twr) ? "c-red" : "c-green";
   totalTr.innerHTML =
     '<td><span class="total-label">' + first + ' — ' + last + '（合計）</span></td>' +
     '<td><span class="total-label">—</span></td>' +
