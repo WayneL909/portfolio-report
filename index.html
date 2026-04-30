@@ -58,14 +58,11 @@ body { background: var(--bg); color: var(--ink); font-family: -apple-system,'SF 
 </head>
 <body>
 <div class="page">
-
   <div id="loading" class="loading">載入資料中…</div>
-
   <div id="error-box" class="error-box" style="display:none">
     <p id="error-msg">資料載入失敗</p>
-    <button class="retry-btn" onclick="fetchData()">重新載入</button>
+    <button class="retry-btn" onclick="loadData()">重新載入</button>
   </div>
-
   <div id="main" style="display:none">
     <div class="header">
       <div class="header-meta">
@@ -74,197 +71,179 @@ body { background: var(--bg); color: var(--ink); font-family: -apple-system,'SF 
       </div>
       <h1 class="header-title">績效<br><span>總覽</span></h1>
     </div>
-
-```
-<div class="hero">
-  <div class="hero-item featured">
-    <div class="hero-label">時間加權累積報酬率 TWR</div>
-    <div class="hero-value" id="d-twr"></div>
-    <div class="hero-sub" id="d-twr-sub"></div>
-  </div>
-  <div class="hero-item featured">
-    <div class="hero-label">推估年化報酬率（單利）</div>
-    <div class="hero-value" id="d-ann" style="color:#C8000A"></div>
-    <div class="hero-sub">TWR 基礎換算</div>
-  </div>
-  <div class="hero-item">
-    <div class="hero-label">累積總獲利（帳戶）</div>
-    <div class="hero-value" id="d-profit" style="color:#C8000A"></div>
-    <div class="hero-sub">期末 — 累計投入</div>
-  </div>
-  <div class="hero-item">
-    <div class="hero-label">期末總資金</div>
-    <div class="hero-value" id="d-balance"></div>
-    <div class="hero-sub" id="d-bal-date"></div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title">帳戶摘要</div>
-  <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
-  <div class="row"><span class="row-label">初始投入本金</span><span class="row-value" id="s-init"></span></div>
-  <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
-  <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
-  <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
-  <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value" id="s-profit" style="color:#C8000A"></span></div>
-  <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value" id="s-twr"></span></div>
-  <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value" id="s-ann" style="color:#C8000A"></span></div>
-</div>
-
-<div class="section">
-  <div class="section-title">各期間績效</div>
-  <table class="period-table">
-    <thead><tr><th>區間</th><th>該段獲利</th><th>報酬率</th></tr></thead>
-    <tbody id="periods-body"></tbody>
-  </table>
-</div>
-
-<div class="footer">
-  <div class="footer-text">
-    本報告數據由代操方提供・僅供參考<br>
-    報告日期：<span id="d-footer-date"></span>
+    <div class="hero">
+      <div class="hero-item featured">
+        <div class="hero-label">時間加權累積報酬率 TWR</div>
+        <div class="hero-value" id="d-twr"></div>
+        <div class="hero-sub" id="d-twr-sub"></div>
+      </div>
+      <div class="hero-item featured">
+        <div class="hero-label">推估年化報酬率（單利）</div>
+        <div class="hero-value" id="d-ann" style="color:#C8000A"></div>
+        <div class="hero-sub">TWR 基礎換算</div>
+      </div>
+      <div class="hero-item">
+        <div class="hero-label">累積總獲利（帳戶）</div>
+        <div class="hero-value" id="d-profit" style="color:#C8000A"></div>
+        <div class="hero-sub">期末 — 累計投入</div>
+      </div>
+      <div class="hero-item">
+        <div class="hero-label">期末總資金</div>
+        <div class="hero-value" id="d-balance"></div>
+        <div class="hero-sub" id="d-bal-date"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">帳戶摘要</div>
+      <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
+      <div class="row"><span class="row-label">初始投入本金</span><span class="row-value" id="s-init"></span></div>
+      <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
+      <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
+      <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
+      <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value" id="s-profit" style="color:#C8000A"></span></div>
+      <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value" id="s-twr"></span></div>
+      <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value" id="s-ann" style="color:#C8000A"></span></div>
+    </div>
+    <div class="section">
+      <div class="section-title">各期間績效</div>
+      <table class="period-table">
+        <thead><tr><th>區間</th><th>該段獲利</th><th>報酬率</th></tr></thead>
+        <tbody id="periods-body"></tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <div class="footer-text">本報告數據由代操方提供・僅供參考<br>報告日期：<span id="d-footer-date"></span></div>
+    </div>
   </div>
 </div>
-```
 
-  </div>
-
-</div>
 <script>
-var SHEET_ID = "1-PicoC4FKc5p7DxlTYmOSzOLBw15vEFr-9NPpy3TDYk";
+var WORKER_URL = "https://sheets-proxy.jt9wn5m458.workers.dev";
+var _timer = null;
 
-function showError(msg) {
-document.getElementById(“loading”).style.display = “none”;
-document.getElementById(“error-box”).style.display = “block”;
-if (msg) document.getElementById(“error-msg”).textContent = msg;
-}
-
-function setText(id, val) {
-var el = document.getElementById(id);
-if (el) el.textContent = String(val);
-}
-
-function isNeg(v) { return String(v).trim().charAt(0) === “-”; }
-function numColor(v) { return isNeg(v) ? “#006E35” : “#C8000A”; }
-
+function isNeg(v) { return String(v).trim().charAt(0) === "-"; }
+function numColor(v) { return isNeg(v) ? "#006E35" : "#C8000A"; }
 function addPlus(v) {
-var s = String(v).trim();
-if (!s || s === “-”) return s;
-if (s.charAt(0) !== “-” && s.charAt(0) !== “+”) return “+” + s;
-return s;
+  var s = String(v).trim();
+  if (!s) return s;
+  if (s.charAt(0) !== "-" && s.charAt(0) !== "+") return "+" + s;
+  return s;
 }
+function setText(id, val) { var el=document.getElementById(id); if(el) el.textContent=String(val); }
 
 function parseCSV(text) {
-var rows = [];
-var lines = text.replace(/\r/g, “”).split(”\n”);
-lines.forEach(function(line) {
-if (!line.trim()) return;
-var cols = []; var cur = “”; var inQ = false;
-for (var i = 0; i < line.length; i++) {
-var c = line[i];
-if (c === ‘”’) { inQ = !inQ; }
-else if (c === “,” && !inQ) { cols.push(cur.trim()); cur = “”; }
-else { cur += c; }
-}
-cols.push(cur.trim());
-rows.push(cols);
-});
-return rows;
-}
-
-function render(D, periods) {
-var first = periods.length ? periods[0].from : “”;
-var last  = periods.length ? periods[periods.length-1].to : “”;
-var twr   = addPlus(D.twr || “”);
-var ann   = String(D.annualized || “”);
-
-setText(“d-date”,        “截至 “ + (D.reportDate || “”));
-setText(“d-twr”,         twr + “%”);
-document.getElementById(“d-twr”).style.color = numColor(twr);
-setText(“d-twr-sub”,     first + “ — “ + (D.reportDate || “”));
-setText(“d-ann”,         ann + “%”);
-setText(“d-profit”,      “$” + (D.totalProfit || “”));
-setText(“d-balance”,     “$” + (D.endBalance || “”));
-setText(“d-bal-date”,    D.reportDate || “”);
-setText(“d-footer-date”, D.reportDate || “”);
-
-setText(“s-days”,    (D.totalDays || “”) + “ 天”);
-setText(“s-init”,    “$” + (D.initialCapital || “”));
-setText(“s-add”,     “$” + (D.addedCapital || “”));
-setText(“s-total”,   “$” + (D.totalCapital || “”));
-setText(“s-balance”, “$” + (D.endBalance || “”));
-setText(“s-profit”,  “$” + (D.totalProfit || “”));
-setText(“s-twr”,     twr + “%”);
-document.getElementById(“s-twr”).style.color = numColor(twr);
-setText(“s-ann”,     ann + “%”);
-document.getElementById(“s-end-label”).textContent = “期末總資金（” + (D.reportDate || “”) + “）”;
-
-var tbody = document.getElementById(“periods-body”);
-tbody.innerHTML = “”;
-periods.forEach(function(p) {
-var tr = document.createElement(“tr”);
-tr.innerHTML =
-‘<td><div class="period-date">’ + p.from + ’<br>— ’ + p.to + ‘</div></td>’ +
-‘<td><span class="period-num" style="color:' + numColor(p.profit) + '">’ + p.profit + ‘</span></td>’ +
-‘<td><span class="period-num" style="color:' + numColor(p.rate) + '">’ + p.rate + ‘%</span></td>’;
-tbody.appendChild(tr);
-});
-
-var totalTr = document.createElement(“tr”);
-totalTr.className = “total-row”;
-totalTr.innerHTML =
-‘<td><span class="total-label">’ + first + ’ — ’ + last + ‘（合計）</span></td>’ +
-‘<td><span class="total-label">—</span></td>’ +
-‘<td><span class="total-rate" style="color:' + numColor(twr) + '">’ + twr + ‘%</span></td>’;
-tbody.appendChild(totalTr);
-
-document.getElementById(“loading”).style.display = “none”;
-document.getElementById(“main”).style.display = “block”;
-}
-
-function fetchData() {
-document.getElementById(“loading”).style.display = “block”;
-document.getElementById(“main”).style.display = “none”;
-document.getElementById(“error-box”).style.display = “none”;
-
-var url = “https://sheets-proxy.jt9wn5m458.workers.dev?t=” + Date.now();
-
-fetch(url)
-.then(function(res) {
-if (!res.ok) throw new Error(“HTTP “ + res.status);
-return res.text();
-})
-.then(function(csv) {
-var rows = parseCSV(csv);
-var D = {};
-var periods = [];
-
-```
-  rows.forEach(function(row) {
-    var key = (row[0] || "").trim();
-    if (!key) return;
-    if (key === "from") {
-      periods.push({
-        from:   (row[1] || "").trim(),
-        to:     (row[2] || "").trim(),
-        profit: addPlus(row[3] || ""),
-        rate:   addPlus(row[4] || "")
-      });
-    } else {
-      D[key] = (row[1] || "").trim();
+  var rows = [];
+  text.replace(/\r/g,"").split("\n").forEach(function(line) {
+    if (!line.trim()) return;
+    var cols=[]; var cur=""; var inQ=false;
+    for (var i=0;i<line.length;i++) {
+      var c=line[i];
+      if (c==='"') { inQ=!inQ; }
+      else if (c===","&&!inQ) { cols.push(cur.trim()); cur=""; }
+      else { cur+=c; }
     }
+    cols.push(cur.trim());
+    rows.push(cols);
   });
-
-  render(D, periods);
-})
-.catch(function(err) {
-  showError("資料載入失敗：" + err.message);
-});
-```
-
+  return rows;
 }
 
-fetchData();
+function render(csv) {
+  try {
+    var rows = parseCSV(csv);
+    var D = {}; var periods = [];
+    rows.forEach(function(row) {
+      var key=(row[0]||"").trim();
+      if (!key) return;
+      if (key==="from") {
+        periods.push({ from:(row[1]||"").trim(), to:(row[2]||"").trim(), profit:addPlus(row[3]||""), rate:addPlus(row[4]||"") });
+      } else { D[key]=(row[1]||"").trim(); }
+    });
+
+    var first=periods.length?periods[0].from:"";
+    var last=periods.length?periods[periods.length-1].to:"";
+    var twr=addPlus(D.twr||"");
+    var ann=String(D.annualized||"");
+
+    setText("d-date","截至 "+(D.reportDate||""));
+    setText("d-twr",twr+"%"); document.getElementById("d-twr").style.color=numColor(twr);
+    setText("d-twr-sub",first+" — "+(D.reportDate||""));
+    setText("d-ann",ann+"%");
+    setText("d-profit","$"+(D.totalProfit||""));
+    setText("d-balance","$"+(D.endBalance||""));
+    setText("d-bal-date",D.reportDate||"");
+    setText("d-footer-date",D.reportDate||"");
+    setText("s-days",(D.totalDays||"")+" 天");
+    setText("s-init","$"+(D.initialCapital||""));
+    setText("s-add","$"+(D.addedCapital||""));
+    setText("s-total","$"+(D.totalCapital||""));
+    setText("s-balance","$"+(D.endBalance||""));
+    setText("s-profit","$"+(D.totalProfit||""));
+    setText("s-twr",twr+"%"); document.getElementById("s-twr").style.color=numColor(twr);
+    setText("s-ann",ann+"%");
+    document.getElementById("s-end-label").textContent="期末總資金（"+(D.reportDate||"")+"）";
+
+    var tbody=document.getElementById("periods-body");
+    tbody.innerHTML="";
+    periods.forEach(function(p) {
+      var tr=document.createElement("tr");
+      tr.innerHTML='<td><div class="period-date">'+p.from+'<br>— '+p.to+'</div></td>'+
+        '<td><span class="period-num" style="color:'+numColor(p.profit)+'">'+p.profit+'</span></td>'+
+        '<td><span class="period-num" style="color:'+numColor(p.rate)+'">'+p.rate+'%</span></td>';
+      tbody.appendChild(tr);
+    });
+
+    var totTr=document.createElement("tr"); totTr.className="total-row";
+    totTr.innerHTML='<td><span class="total-label">'+first+' — '+last+'（合計）</span></td>'+
+      '<td><span class="total-label">—</span></td>'+
+      '<td><span class="total-rate" style="color:'+numColor(twr)+'">'+twr+'%</span></td>';
+    tbody.appendChild(totTr);
+
+    document.getElementById("loading").style.display="none";
+    document.getElementById("main").style.display="block";
+  } catch(e) {
+    document.getElementById("loading").style.display="none";
+    document.getElementById("error-msg").textContent="資料解析失敗："+e.message;
+    document.getElementById("error-box").style.display="block";
+  }
+}
+
+// 用 XMLHttpRequest 取代 fetch，避免某些瀏覽器的限制
+function loadData() {
+  document.getElementById("loading").style.display="block";
+  document.getElementById("main").style.display="none";
+  document.getElementById("error-box").style.display="none";
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", WORKER_URL+"?t="+Date.now(), true);
+  xhr.timeout = 15000;
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      render(xhr.responseText);
+    } else {
+      document.getElementById("loading").style.display="none";
+      document.getElementById("error-msg").textContent="載入失敗：HTTP "+xhr.status;
+      document.getElementById("error-box").style.display="block";
+    }
+  };
+
+  xhr.onerror = function() {
+    document.getElementById("loading").style.display="none";
+    document.getElementById("error-msg").textContent="網路錯誤，請確認網路連線";
+    document.getElementById("error-box").style.display="block";
+  };
+
+  xhr.ontimeout = function() {
+    document.getElementById("loading").style.display="none";
+    document.getElementById("error-msg").textContent="載入逾時，請重試";
+    document.getElementById("error-box").style.display="block";
+  };
+
+  xhr.send();
+}
+
+loadData();
 </script>
 
 </body>
