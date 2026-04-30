@@ -8,419 +8,263 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #FAFAF8;
-  --white: #ffffff;
-  --ink: #111111;
-  --ink2: #444444;
-  --ink3: #999999;
-  --line: #E8E8E4;
-  --red: #C8000A;
-  --green: #006E35;
-  --gold: #8A6820;
-  --gold-bg: #F5F0E8;
+  --bg: #FAFAF8; --white: #ffffff; --ink: #111111; --ink2: #444444;
+  --ink3: #999999; --line: #E8E8E4; --red: #C8000A; --green: #006E35;
+  --gold: #8A6820; --gold-bg: #F5F0E8;
 }
-
-- { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-background: var(–bg);
-color: var(–ink);
-font-family: -apple-system, ‘SF Pro TC’, ‘SF Pro Text’, ‘Helvetica Neue’, sans-serif;
-font-weight: 300;
-min-height: 100vh;
--webkit-font-smoothing: antialiased;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: -apple-system,'SF Pro TC','SF Pro Text','Helvetica Neue',sans-serif; font-weight: 300; min-height: 100vh; -webkit-font-smoothing: antialiased; }
 .page { max-width: 640px; margin: 0 auto; padding: 0 28px 100px; }
-
-/* HEADER */
-.header { padding: 56px 0 40px; border-bottom: 1px solid var(–ink); margin-bottom: 48px; }
+.loading { text-align: center; padding: 120px 0; font-family: 'DM Mono',monospace; font-size: 12px; color: var(--ink3); letter-spacing: 0.2em; }
+.header { padding: 56px 0 40px; border-bottom: 1px solid var(--ink); margin-bottom: 48px; }
 .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-.header-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–gold); font-weight: 500; }
-.header-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); }
-.header-title { font-size: clamp(32px, 8vw, 52px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
-.header-title span { color: var(–gold); font-weight: 300; }
-
-/* HERO */
-.hero { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(–line); margin-bottom: 56px; background: var(–white); }
-.hero-item { padding: 24px 22px; border-right: 1px solid var(–line); border-bottom: 1px solid var(–line); }
+.header-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.header-date { font-family: 'DM Mono',monospace; font-size: 11px; color: var(--ink3); }
+.header-title { font-size: clamp(32px,8vw,52px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.header-title span { color: var(--gold); font-weight: 300; }
+.hero { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); margin-bottom: 56px; background: var(--white); }
+.hero-item { padding: 24px 22px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .hero-item:nth-child(2) { border-right: none; }
 .hero-item:nth-child(3) { border-bottom: none; }
 .hero-item:nth-child(4) { border-right: none; border-bottom: none; }
-.hero-item.featured { background: var(–gold-bg); }
-.hero-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.6; }
-.hero-value { font-family: ‘DM Mono’, monospace; font-size: clamp(18px, 4vw, 26px); font-weight: 500; line-height: 1; color: var(–ink); }
-.hero-sub { font-size: 10px; color: var(–ink3); margin-top: 8px; font-family: ‘DM Mono’, monospace; }
-
-/* SECTION */
+.hero-item.featured { background: var(--gold-bg); }
+.hero-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); font-weight: 500; margin-bottom: 10px; line-height: 1.6; }
+.hero-value { font-family: 'DM Mono',monospace; font-size: clamp(18px,4vw,26px); font-weight: 500; line-height: 1; }
+.hero-sub { font-size: 10px; color: var(--ink3); margin-top: 8px; font-family: 'DM Mono',monospace; }
 .section { margin-bottom: 48px; }
-.section-title {
-font-size: 22px;
-font-weight: 700;
-letter-spacing: -0.01em;
-color: var(–ink);
-padding-bottom: 14px;
-border-bottom: 1px solid var(–ink);
-margin-bottom: 0;
-}
-
-/* SUMMARY ROWS */
-.row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(–line); }
-.row-label { font-size: 13px; color: var(–ink2); font-weight: 400; flex: 1; }
-.row-value { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; color: var(–ink); text-align: right; }
-
-/* PERIOD TABLE */
+.section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; padding-bottom: 14px; border-bottom: 1px solid var(--ink); margin-bottom: 0; }
+.row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.row-label { font-size: 13px; color: var(--ink2); font-weight: 400; flex: 1; }
+.row-value { font-family: 'DM Mono',monospace; font-size: 15px; font-weight: 500; color: var(--ink); text-align: right; }
 .period-table { width: 100%; border-collapse: collapse; }
-.period-table th { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(–ink3); font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(–line); text-align: left; }
+.period-table th { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--line); text-align: left; }
 .period-table th:not(:first-child) { text-align: right; }
-.period-table td { padding: 16px 0; border-bottom: 1px solid var(–line); font-size: 13px; }
+.period-table td { padding: 16px 0; border-bottom: 1px solid var(--line); }
 .period-table td:not(:first-child) { text-align: right; }
 .period-table tr:last-child td { border-bottom: none; }
-.period-date { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–ink3); line-height: 1.7; }
-.period-num { font-family: ‘DM Mono’, monospace; font-size: 15px; font-weight: 500; }
-.total-row td { background: var(–ink); padding: 14px 10px; }
+.period-date { font-family: 'DM Mono',monospace; font-size: 11px; color: var(--ink3); line-height: 1.7; }
+.period-num { font-family: 'DM Mono',monospace; font-size: 15px; font-weight: 500; }
+.total-row td { background: var(--ink); padding: 14px 10px; border-bottom: none; }
 .total-row td:first-child { padding-left: 14px; }
 .total-row td:last-child { padding-right: 14px; }
-.total-label { font-family: ‘DM Mono’, monospace; font-size: 11px; color: #aaa; }
-.total-rate { font-family: ‘DM Mono’, monospace; font-size: 16px; font-weight: 500; }
-
-/* COLORS — 紅漲綠跌 */
-.c-red   { color: var(–red) !important; }
-.c-green { color: var(–green) !important; }
-.c-gold  { color: var(–gold) !important; }
-
-/* FOOTER */
-.footer { padding-top: 40px; border-top: 1px solid var(–line); }
-.footer-text { font-size: 11px; color: var(–ink3); line-height: 2.2; font-family: ‘DM Mono’, monospace; }
-
-/* ADMIN BUTTON */
-.admin-trigger { text-align: center; margin-top: 48px; }
-.admin-trigger button { background: none; border: none; font-size: 10px; color: var(–line); cursor: pointer; letter-spacing: 0.1em; font-family: ‘DM Mono’, monospace; }
-
-/* OVERLAY */
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; }
-.overlay.show { display: flex; }
-.modal { background: var(–white); padding: 40px 32px; width: 90%; max-width: 340px; border: 1px solid var(–line); }
-.modal-title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
-.modal-sub { font-size: 12px; color: var(–ink3); margin-bottom: 28px; font-family: ‘DM Mono’, monospace; }
-.modal input { width: 100%; padding: 12px 16px; border: 1px solid var(–line); background: var(–bg); font-family: ‘DM Mono’, monospace; font-size: 20px; letter-spacing: 0.3em; text-align: center; outline: none; color: var(–ink); }
-.modal input:focus { border-color: var(–ink); }
-.modal-err { font-size: 11px; color: var(–red); margin-top: 8px; font-family: ‘DM Mono’, monospace; min-height: 16px; }
-.modal-btns { display: flex; gap: 8px; margin-top: 20px; }
-.btn-primary { flex: 1; background: var(–ink); color: var(–white); border: none; padding: 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; letter-spacing: 0.05em; }
-.btn-secondary { background: none; border: 1px solid var(–line); color: var(–ink2); padding: 12px 20px; font-size: 13px; cursor: pointer; font-family: inherit; }
-.modal-hint { font-size: 10px; color: var(–ink3); text-align: center; margin-top: 16px; font-family: ‘DM Mono’, monospace; }
-
-/* ADMIN PANEL */
-#admin-panel { display: none; }
-#admin-panel.show { display: block; }
-#client-view.hide { display: none; }
-.admin-header { padding: 48px 0 32px; border-bottom: 1px solid var(–ink); margin-bottom: 40px; }
-.admin-header-top { display: flex; justify-content: space-between; align-items: center; }
-.admin-tag { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–gold); font-weight: 500; margin-bottom: 8px; }
-.admin-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
-.field { margin-bottom: 20px; }
-.field label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 8px; }
-.field input { width: 100%; padding: 11px 14px; border: 1px solid var(–line); background: var(–white); font-family: ‘DM Mono’, monospace; font-size: 14px; color: var(–ink); outline: none; }
-.field input:focus { border-color: var(–ink); }
-.admin-section { margin-bottom: 40px; }
-.admin-section-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(–ink3); font-weight: 500; padding-bottom: 12px; border-bottom: 1px solid var(–line); margin-bottom: 24px; }
-.period-block { border: 1px solid var(–line); padding: 20px; margin-bottom: 12px; background: var(–white); }
-.period-block-num { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–ink3); font-weight: 500; margin-bottom: 16px; }
-.period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.del-btn { background: none; border: none; color: var(–ink3); font-size: 11px; cursor: pointer; padding: 8px 0 0; font-family: ‘DM Mono’, monospace; text-decoration: underline; display: block; }
-.add-btn { width: 100%; padding: 12px; background: none; border: 1px dashed var(–line); color: var(–ink3); font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 4px; }
-.save-row { display: flex; gap: 8px; margin-top: 8px; }
-.save-note { font-size: 11px; color: var(–ink3); text-align: center; margin-top: 12px; font-family: ‘DM Mono’, monospace; }
+.total-label { font-family: 'DM Mono',monospace; font-size: 11px; color: #aaa; }
+.total-rate { font-family: 'DM Mono',monospace; font-size: 16px; font-weight: 500; }
+.footer { padding-top: 40px; border-top: 1px solid var(--line); }
+.footer-text { font-size: 11px; color: var(--ink3); line-height: 2.2; font-family: 'DM Mono',monospace; }
+.error-box { text-align: center; padding: 80px 0; }
+.error-box p { font-family: 'DM Mono',monospace; font-size: 12px; color: var(--red); margin-bottom: 16px; }
+.retry-btn { background: var(--ink); color: var(--white); border: none; padding: 10px 24px; font-size: 13px; cursor: pointer; }
 </style>
-
 </head>
 <body>
+<div class="page">
 
-<!-- CLIENT VIEW -->
+  <div id="loading" class="loading">載入資料中…</div>
 
-<div id="client-view" class="page">
-  <div class="header">
-    <div class="header-meta">
-      <span class="header-tag">投資績效報告</span>
-      <span class="header-date" id="d-date"></span>
-    </div>
-    <h1 class="header-title">績效<br><span>總覽</span></h1>
+  <div id="error-box" class="error-box" style="display:none">
+    <p id="error-msg">資料載入失敗</p>
+    <button class="retry-btn" onclick="fetchData()">重新載入</button>
   </div>
 
-  <div class="hero">
-    <div class="hero-item featured">
-      <div class="hero-label">時間加權累積報酬率 TWR</div>
-      <div class="hero-value" id="d-twr" style="color:#C8000A"></div>
-      <div class="hero-sub" id="d-twr-sub"></div>
-    </div>
-    <div class="hero-item featured">
-      <div class="hero-label">推估年化報酬率（單利）</div>
-      <div class="hero-value" id="d-ann" style="color:#C8000A"></div>
-      <div class="hero-sub">TWR 基礎換算</div>
-    </div>
-    <div class="hero-item">
-      <div class="hero-label">累積總獲利（帳戶）</div>
-      <div class="hero-value" id="d-profit" style="color:#C8000A"></div>
-      <div class="hero-sub">期末 — 累計投入</div>
-    </div>
-    <div class="hero-item">
-      <div class="hero-label">期末總資金</div>
-      <div class="hero-value" id="d-balance"></div>
-      <div class="hero-sub" id="d-bal-date"></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">帳戶摘要</div>
-    <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
-    <div class="row"><span class="row-label">初始投入本金</span><span class="row-value" id="s-init"></span></div>
-    <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
-    <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
-    <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
-    <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value" id="s-profit" style="color:#C8000A"></span></div>
-    <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value" id="s-twr" style="color:#C8000A"></span></div>
-    <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value" id="s-ann" style="color:#C8000A"></span></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">各期間績效</div>
-    <table class="period-table">
-      <thead>
-        <tr><th>區間</th><th>該段獲利</th><th>報酬率</th></tr>
-      </thead>
-      <tbody id="periods-body"></tbody>
-    </table>
-  </div>
-
-  <div class="footer">
-    <div class="footer-text">
-      本報告數據由代操方提供・僅供參考<br>
-      報告日期：<span id="d-footer-date"></span>
-    </div>
-  </div>
-  <div class="admin-trigger"><button onclick="showPin()">admin</button></div>
-</div>
-
-<!-- ADMIN PANEL -->
-
-<div id="admin-panel" class="page">
-  <div class="admin-header">
-    <div class="admin-header-top">
-      <div>
-        <div class="admin-tag">管理後台</div>
-        <div class="admin-title">更新報告數據</div>
+  <div id="main" style="display:none">
+    <div class="header">
+      <div class="header-meta">
+        <span class="header-tag">投資績效報告</span>
+        <span class="header-date" id="d-date"></span>
       </div>
-      <button class="btn-secondary" onclick="showClient()">返回</button>
+      <h1 class="header-title">績效<br><span>總覽</span></h1>
     </div>
-  </div>
 
-  <div class="admin-section">
-    <div class="admin-section-title">基本資訊</div>
-    <div class="field"><label>報告截止日期</label><input id="f-date" placeholder="2026/04/05"></div>
-    <div class="field"><label>總投資天數</label><input id="f-days" placeholder="126"></div>
+```
+<div class="hero">
+  <div class="hero-item featured">
+    <div class="hero-label">時間加權累積報酬率 TWR</div>
+    <div class="hero-value" id="d-twr"></div>
+    <div class="hero-sub" id="d-twr-sub"></div>
   </div>
-  <div class="admin-section">
-    <div class="admin-section-title">資金數據</div>
-    <div class="field"><label>初始投入本金</label><input id="f-init" placeholder="2,000,000"></div>
-    <div class="field"><label>新增投入本金</label><input id="f-add" placeholder="3,200,000"></div>
-    <div class="field"><label>累計投入本金</label><input id="f-total" placeholder="5,200,000"></div>
-    <div class="field"><label>期末總資金</label><input id="f-balance" placeholder="7,027,571"></div>
-    <div class="field"><label>累積總獲利（帳戶）</label><input id="f-profit" placeholder="1,827,571"></div>
+  <div class="hero-item featured">
+    <div class="hero-label">推估年化報酬率（單利）</div>
+    <div class="hero-value" id="d-ann" style="color:#C8000A"></div>
+    <div class="hero-sub">TWR 基礎換算</div>
   </div>
-  <div class="admin-section">
-    <div class="admin-section-title">報酬率</div>
-    <div class="field"><label>TWR（不含 %，例：+54.05）</label><input id="f-twr" placeholder="+54.05"></div>
-    <div class="field"><label>年化報酬率（不含 %，例：約 156）</label><input id="f-ann" placeholder="約 156"></div>
+  <div class="hero-item">
+    <div class="hero-label">累積總獲利（帳戶）</div>
+    <div class="hero-value" id="d-profit" style="color:#C8000A"></div>
+    <div class="hero-sub">期末 — 累計投入</div>
   </div>
-  <div class="admin-section">
-    <div class="admin-section-title">各期間績效</div>
-    <div id="periods-editor"></div>
-    <button class="add-btn" onclick="addPeriod()">＋ 新增一期</button>
-  </div>
-
-  <div class="save-row">
-    <button class="btn-primary" id="save-btn" onclick="doSave()" style="flex:1">儲存並更新</button>
-    <button class="btn-secondary" onclick="showClient()">取消</button>
-  </div>
-  <p class="save-note">儲存後客戶刷新頁面即可看到最新數據</p>
-</div>
-
-<!-- PIN OVERLAY -->
-
-<div class="overlay" id="pin-overlay">
-  <div class="modal">
-    <div class="modal-title">管理員登入</div>
-    <div class="modal-sub">請輸入密碼</div>
-    <input type="password" id="pin-input" placeholder="• • • •" onkeydown="if(event.key==='Enter')checkPin()">
-    <div class="modal-err" id="pin-err"></div>
-    <div class="modal-btns">
-      <button class="btn-primary" onclick="checkPin()">確認</button>
-      <button class="btn-secondary" onclick="hidePin()">取消</button>
-    </div>
-    <div class="modal-hint">預設密碼：0000</div>
+  <div class="hero-item">
+    <div class="hero-label">期末總資金</div>
+    <div class="hero-value" id="d-balance"></div>
+    <div class="hero-sub" id="d-bal-date"></div>
   </div>
 </div>
 
+<div class="section">
+  <div class="section-title">帳戶摘要</div>
+  <div class="row"><span class="row-label">總投資天數</span><span class="row-value" id="s-days"></span></div>
+  <div class="row"><span class="row-label">初始投入本金</span><span class="row-value" id="s-init"></span></div>
+  <div class="row"><span class="row-label">新增投入本金</span><span class="row-value" id="s-add"></span></div>
+  <div class="row"><span class="row-label">累計投入本金</span><span class="row-value" id="s-total"></span></div>
+  <div class="row"><span class="row-label" id="s-end-label">期末總資金</span><span class="row-value" id="s-balance"></span></div>
+  <div class="row"><span class="row-label">累積總獲利（帳戶）</span><span class="row-value" id="s-profit" style="color:#C8000A"></span></div>
+  <div class="row"><span class="row-label">時間加權累積報酬率（TWR）</span><span class="row-value" id="s-twr"></span></div>
+  <div class="row" style="border-bottom:none"><span class="row-label">推估年化報酬率（TWR・單利）</span><span class="row-value" id="s-ann" style="color:#C8000A"></span></div>
+</div>
+
+<div class="section">
+  <div class="section-title">各期間績效</div>
+  <table class="period-table">
+    <thead><tr><th>區間</th><th>該段獲利</th><th>報酬率</th></tr></thead>
+    <tbody id="periods-body"></tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <div class="footer-text">
+    本報告數據由代操方提供・僅供參考<br>
+    報告日期：<span id="d-footer-date"></span>
+  </div>
+</div>
+```
+
+  </div>
+
+</div>
 <script>
-var KEY = "inv_v5";
-var PIN = "0000";
+var SHEET_ID = "1-PicoC4FKc5p7DxlTYmOSzOLBw15vEFr-9NPpy3TDYk";
 
-var def = {
-  date:"2026/04/05", days:"126",
-  init:"2,000,000", add:"3,200,000", total:"5,200,000",
-  balance:"7,027,571", profit:"1,827,571",
-  twr:"+54.05", ann:"約 156",
-  periods:[
-    {from:"2025/12/01",to:"2026/01/04",profit:"+544,814",rate:"+29.40"},
-    {from:"2026/01/06",to:"2026/02/05",profit:"+856,380",rate:"+14.91"},
-    {from:"2026/02/06",to:"2026/03/05",profit:"+886,099",rate:"+13.42"},
-    {from:"2026/03/06",to:"2026/04/05",profit:"-459,722",rate:"-6.14"},
-  ]
-};
+function showError(msg) {
+document.getElementById(“loading”).style.display = “none”;
+document.getElementById(“error-box”).style.display = “block”;
+if (msg) document.getElementById(“error-msg”).textContent = msg;
+}
 
-function load() { try { var r=localStorage.getItem(KEY); if(r) return JSON.parse(r); } catch(e){} return JSON.parse(JSON.stringify(def)); }
-function save(d) { try { localStorage.setItem(KEY,JSON.stringify(d)); } catch(e){} }
+function setText(id, val) {
+var el = document.getElementById(id);
+if (el) el.textContent = String(val);
+}
 
-var D = load();
+function isNeg(v) { return String(v).trim().charAt(0) === “-”; }
+function numColor(v) { return isNeg(v) ? “#006E35” : “#C8000A”; }
 
-function pos(v) { return String(v).trim()[0] !== "-"; }
+function addPlus(v) {
+var s = String(v).trim();
+if (!s || s === “-”) return s;
+if (s.charAt(0) !== “-” && s.charAt(0) !== “+”) return “+” + s;
+return s;
+}
 
-// 正數=紅，負數=綠
-function periodColor(v) { return pos(v) ? "c-red" : "c-green"; }
+function parseCSV(text) {
+var rows = [];
+var lines = text.replace(/\r/g, “”).split(”\n”);
+lines.forEach(function(line) {
+if (!line.trim()) return;
+var cols = []; var cur = “”; var inQ = false;
+for (var i = 0; i < line.length; i++) {
+var c = line[i];
+if (c === ‘”’) { inQ = !inQ; }
+else if (c === “,” && !inQ) { cols.push(cur.trim()); cur = “”; }
+else { cur += c; }
+}
+cols.push(cur.trim());
+rows.push(cols);
+});
+return rows;
+}
 
-function setText(id, val) { var el=document.getElementById(id); if(el) el.textContent=val; }
+function render(D, periods) {
+var first = periods.length ? periods[0].from : “”;
+var last  = periods.length ? periods[periods.length-1].to : “”;
+var twr   = addPlus(D.twr || “”);
+var ann   = String(D.annualized || “”);
 
-function renderClient() {
-  var first = D.periods.length ? D.periods[0].from : "";
-  var last  = D.periods.length ? D.periods[D.periods.length-1].to : "";
+setText(“d-date”,        “截至 “ + (D.reportDate || “”));
+setText(“d-twr”,         twr + “%”);
+document.getElementById(“d-twr”).style.color = numColor(twr);
+setText(“d-twr-sub”,     first + “ — “ + (D.reportDate || “”));
+setText(“d-ann”,         ann + “%”);
+setText(“d-profit”,      “$” + (D.totalProfit || “”));
+setText(“d-balance”,     “$” + (D.endBalance || “”));
+setText(“d-bal-date”,    D.reportDate || “”);
+setText(“d-footer-date”, D.reportDate || “”);
 
-  setText("d-date", "截至 " + D.date);
-  setText("d-twr", D.twr + "%");
-  setText("d-twr-sub", first + " — " + D.date);
-  setText("d-ann", D.ann + "%");
-  setText("d-profit", "$" + D.profit);
-  setText("d-balance", "$" + D.balance);
-  setText("d-bal-date", D.date);
-  setText("d-footer-date", D.date);
+setText(“s-days”,    (D.totalDays || “”) + “ 天”);
+setText(“s-init”,    “$” + (D.initialCapital || “”));
+setText(“s-add”,     “$” + (D.addedCapital || “”));
+setText(“s-total”,   “$” + (D.totalCapital || “”));
+setText(“s-balance”, “$” + (D.endBalance || “”));
+setText(“s-profit”,  “$” + (D.totalProfit || “”));
+setText(“s-twr”,     twr + “%”);
+document.getElementById(“s-twr”).style.color = numColor(twr);
+setText(“s-ann”,     ann + “%”);
+document.getElementById(“s-end-label”).textContent = “期末總資金（” + (D.reportDate || “”) + “）”;
 
-  setText("s-days", D.days + " 天");
-  setText("s-init", "$" + D.init);
-  setText("s-add", "$" + D.add);
-  setText("s-total", "$" + D.total);
-  document.getElementById("s-end-label").textContent = "期末總資金（" + D.date + "）";
-  setText("s-balance", "$" + D.balance);
-  setText("s-profit", "$" + D.profit);
-  setText("s-twr", D.twr + "%");
-  setText("s-ann", D.ann + "%");
+var tbody = document.getElementById(“periods-body”);
+tbody.innerHTML = “”;
+periods.forEach(function(p) {
+var tr = document.createElement(“tr”);
+tr.innerHTML =
+‘<td><div class="period-date">’ + p.from + ’<br>— ’ + p.to + ‘</div></td>’ +
+‘<td><span class="period-num" style="color:' + numColor(p.profit) + '">’ + p.profit + ‘</span></td>’ +
+‘<td><span class="period-num" style="color:' + numColor(p.rate) + '">’ + p.rate + ‘%</span></td>’;
+tbody.appendChild(tr);
+});
 
-  var tbody = document.getElementById("periods-body");
-  tbody.innerHTML = "";
-  D.periods.forEach(function(p) {
-    var tr = document.createElement("tr");
-    var pc = pos(p.profit) ? "#C8000A" : "#006E35";
-    var rc = pos(p.rate)   ? "#C8000A" : "#006E35";
-    tr.innerHTML =
-      '<td><div class="period-date">' + p.from + '<br>— ' + p.to + '</div></td>' +
-      '<td><span class="period-num" style="color:' + pc + '">' + p.profit + '</span></td>' +
-      '<td><span class="period-num" style="color:' + rc + '">' + p.rate + '%</span></td>';
-    tbody.appendChild(tr);
+var totalTr = document.createElement(“tr”);
+totalTr.className = “total-row”;
+totalTr.innerHTML =
+‘<td><span class="total-label">’ + first + ’ — ’ + last + ‘（合計）</span></td>’ +
+‘<td><span class="total-label">—</span></td>’ +
+‘<td><span class="total-rate" style="color:' + numColor(twr) + '">’ + twr + ‘%</span></td>’;
+tbody.appendChild(totalTr);
+
+document.getElementById(“loading”).style.display = “none”;
+document.getElementById(“main”).style.display = “block”;
+}
+
+function fetchData() {
+document.getElementById(“loading”).style.display = “block”;
+document.getElementById(“main”).style.display = “none”;
+document.getElementById(“error-box”).style.display = “none”;
+
+var url = “https://sheets-proxy.jt9wn5m458.workers.dev?t=” + Date.now();
+
+fetch(url)
+.then(function(res) {
+if (!res.ok) throw new Error(“HTTP “ + res.status);
+return res.text();
+})
+.then(function(csv) {
+var rows = parseCSV(csv);
+var D = {};
+var periods = [];
+
+```
+  rows.forEach(function(row) {
+    var key = (row[0] || "").trim();
+    if (!key) return;
+    if (key === "from") {
+      periods.push({
+        from:   (row[1] || "").trim(),
+        to:     (row[2] || "").trim(),
+        profit: addPlus(row[3] || ""),
+        rate:   addPlus(row[4] || "")
+      });
+    } else {
+      D[key] = (row[1] || "").trim();
+    }
   });
 
-  // 合計列：TWR 正=紅 負=綠
-  var totColor = pos(D.twr) ? "#C8000A" : "#006E35";
-  var totalTr = document.createElement("tr");
-  totalTr.className = "total-row";
-  totalTr.innerHTML =
-    '<td><span class="total-label">' + first + ' — ' + last + '（合計）</span></td>' +
-    '<td><span class="total-label">—</span></td>' +
-    '<td><span class="total-rate" style="color:' + totColor + '">' + D.twr + '%</span></td>';
-  tbody.appendChild(totalTr);
+  render(D, periods);
+})
+.catch(function(err) {
+  showError("資料載入失敗：" + err.message);
+});
+```
+
 }
 
-function renderAdmin() {
-  document.getElementById("f-date").value = D.date;
-  document.getElementById("f-days").value = D.days;
-  document.getElementById("f-init").value = D.init;
-  document.getElementById("f-add").value = D.add;
-  document.getElementById("f-total").value = D.total;
-  document.getElementById("f-balance").value = D.balance;
-  document.getElementById("f-profit").value = D.profit;
-  document.getElementById("f-twr").value = D.twr;
-  document.getElementById("f-ann").value = D.ann;
-  renderPeriods();
-}
-
-function renderPeriods() {
-  var c = document.getElementById("periods-editor");
-  c.innerHTML = "";
-  D.periods.forEach(function(p, i) {
-    var div = document.createElement("div");
-    div.className = "period-block";
-    div.innerHTML =
-      '<div class="period-block-num">第 ' + (i+1) + ' 期</div>' +
-      '<div class="period-grid">' +
-        '<div class="field"><label>開始日期</label><input data-i="'+i+'" data-k="from" value="'+p.from+'" placeholder="2025/12/01"></div>' +
-        '<div class="field"><label>結束日期</label><input data-i="'+i+'" data-k="to" value="'+p.to+'" placeholder="2026/01/04"></div>' +
-        '<div class="field"><label>該段獲利（含正負號）</label><input data-i="'+i+'" data-k="profit" value="'+p.profit+'" placeholder="+544,814"></div>' +
-        '<div class="field"><label>報酬率（不含 %）</label><input data-i="'+i+'" data-k="rate" value="'+p.rate+'" placeholder="+29.40"></div>' +
-      '</div>' +
-      '<button class="del-btn" onclick="delPeriod('+i+')">刪除此期</button>';
-    c.appendChild(div);
-  });
-  c.querySelectorAll("input[data-i]").forEach(function(inp) {
-    inp.addEventListener("input", function() { D.periods[this.dataset.i][this.dataset.k] = this.value; });
-  });
-}
-
-function addPeriod() { D.periods.push({from:"",to:"",profit:"",rate:""}); renderPeriods(); }
-function delPeriod(i) { D.periods.splice(i,1); renderPeriods(); }
-
-function doSave() {
-  D.date    = document.getElementById("f-date").value;
-  D.days    = document.getElementById("f-days").value;
-  D.init    = document.getElementById("f-init").value;
-  D.add     = document.getElementById("f-add").value;
-  D.total   = document.getElementById("f-total").value;
-  D.balance = document.getElementById("f-balance").value;
-  D.profit  = document.getElementById("f-profit").value;
-  D.twr     = document.getElementById("f-twr").value;
-  D.ann     = document.getElementById("f-ann").value;
-  save(D);
-  var btn = document.getElementById("save-btn");
-  btn.textContent = "✓ 已儲存";
-  setTimeout(function(){ btn.textContent = "儲存並更新"; }, 2000);
-  showClient();
-}
-
-function showClient() {
-  document.getElementById("client-view").classList.remove("hide");
-  document.getElementById("admin-panel").classList.remove("show");
-  renderClient();
-}
-function showAdmin() {
-  document.getElementById("client-view").classList.add("hide");
-  document.getElementById("admin-panel").classList.add("show");
-  renderAdmin();
-}
-function showPin() {
-  document.getElementById("pin-overlay").classList.add("show");
-  document.getElementById("pin-input").value = "";
-  document.getElementById("pin-err").textContent = "";
-  setTimeout(function(){ document.getElementById("pin-input").focus(); }, 100);
-}
-function hidePin() { document.getElementById("pin-overlay").classList.remove("show"); }
-function checkPin() {
-  if (document.getElementById("pin-input").value === PIN) {
-    hidePin(); showAdmin();
-  } else {
-    document.getElementById("pin-err").textContent = "密碼錯誤";
-    document.getElementById("pin-input").value = "";
-    setTimeout(function(){ document.getElementById("pin-err").textContent = ""; }, 1200);
-  }
-}
-
-renderClient();
+fetchData();
 </script>
 
 </body>
